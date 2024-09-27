@@ -1,0 +1,13 @@
+{
+  "extends": "../../configs/tsconfig.integration.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "lib",
+    "noImplicitAny": false
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../../packages/inscription/tsconfig.json" },
+    { "path": "../../packages/editor/tsconfig.build.json" }
+  ]
+}

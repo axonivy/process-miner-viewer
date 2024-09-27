@@ -1,0 +1,20 @@
+.jump-out-container {
+  inset: 1rem 0 0 1rem;
+  width: 2.25rem;
+  height: 2.25rem;
+}
+.jump-out-container .jump-out-btn {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--glsp-tool-bar-bg);
+  box-shadow: var(--glsp-box-shadow);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--glsp-tool-button);
+  cursor: pointer;
+}
+.jump-out-container .jump-out-btn:hover {
+  background: var(--glsp-tool-bar-button-active-bg);
+}

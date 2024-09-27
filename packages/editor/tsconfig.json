@@ -1,0 +1,10 @@
+{
+  "extends": "../../configs/tsconfig.package.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "lib",
+    "types": ["node", "reflect-metadata"]
+  },
+  "include": ["src"],
+  "references": [{ "path": "../protocol/tsconfig.json" }]
+}

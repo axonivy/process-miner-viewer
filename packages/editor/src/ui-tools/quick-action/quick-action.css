@@ -1,0 +1,48 @@
+.quick-actions-container {
+  width: 0;
+  height: 0;
+}
+.quick-actions-bar {
+  position: relative;
+  margin-top: 1rem;
+  max-height: 44px;
+  background: var(--glsp-tool-bg);
+  box-shadow: var(--glsp-box-shadow);
+  border-radius: 4px;
+  padding: 6px;
+  display: inline-flex;
+  gap: 1rem;
+  z-index: 10;
+}
+.quick-actions-bar.no-bottom-border-radius {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.quick-actions-group {
+  display: inline-flex;
+}
+.quick-actions-group span {
+  height: 2.25rem;
+  width: 2.25rem;
+  cursor: pointer;
+}
+.quick-actions-group span:hover,
+.quick-actions-group span.active {
+  background: var(--glsp-tool-button-active-bg);
+  border-radius: 2px;
+}
+.quick-actions-group span i {
+  width: 2.25rem;
+  line-height: 2.25rem;
+  color: var(--glsp-tool-button);
+  text-align: center;
+  font-size: 18px;
+}
+.multi-selection-box {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  border: 1px dashed var(--glsp-multiselect-box-border);
+  background: none;
+  pointer-events: none;
+}

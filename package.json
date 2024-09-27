@@ -1,0 +1,48 @@
+{
+  "private": true,
+  "name": "parent",
+  "version": "11.4.0-next",
+  "engines": {
+    "node": ">=20.10.0"
+  },
+  "volta": {
+    "node": "20.15.0"
+  },
+  "scripts": {
+    "ci": "npm install && npm run build && npm run package && npm run lint:ci && npm run test:ci",
+    "clean": "lerna run clean",
+    "build": "tsc --build && tscp --build",
+    "package": "lerna run package",
+    "type": "lerna run type",
+    "lint": "lerna run lint --",
+    "lint:ci": "npm run lint -- -o eslint.xml -f checkstyle",
+    "lint:fix": "lerna run --parallel lint:fix --",
+    "dev": "npm run --workspace=@axonivy/viewer-integration dev",
+    "test": "lerna run test",
+    "test:ci": "lerna run test:ci",
+    "webtest": "lerna run webtest --",
+    "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws -t patch -u",
+    "publish:next": "lerna publish --exact --canary --preid next --pre-dist-tag next --no-git-tag-version --no-push --ignore-scripts --yes"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@typescript-eslint/eslint-plugin": "^8.2.0",
+    "@typescript-eslint/parser": "^8.2.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-header": "^3.1.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-no-null": "^1.0.2",
+    "lerna": "^8.1.8",
+    "prettier": "^2.8.0",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.5.4",
+    "typescript-cp": "^0.1.9"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "integration/*",
+      "playwright"
+    ]
+  }
+}

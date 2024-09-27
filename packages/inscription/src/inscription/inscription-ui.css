@@ -1,0 +1,28 @@
+.inscription-ui-container {
+  position: relative;
+  right: 0;
+  z-index: 1000;
+  height: 100%;
+  background-color: var(--background);
+}
+.inscription-ui-container > div {
+  height: 100%;
+}
+.inscription-ui-container .inscription-resizer {
+  border-left: 1px solid var(--glsp-tool-border);
+  position: absolute;
+  height: 100%;
+  width: 4px;
+  cursor: col-resize;
+  z-index: 5;
+  pointer-events: auto;
+}
+.inscription-ui-container .inscription-resizer:where(:hover, .active) {
+  margin-left: -2px;
+  background-color: var(--glsp-editor-selected);
+  border: none;
+}
+body .ui-select-content,
+body .ui-popover-content {
+  z-index: 1010;
+}
