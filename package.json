@@ -1,7 +1,14 @@
 {
   "private": true,
-  "name": "parent",
-  "version": "11.4.0-next",
+  "name": "@axonivy/process-miner-viewer",
+  "version": "12.0.0-next",
+  "description": "Process miner viever for the Axon Ivy process editor",
+  "author": "Axon Ivy AG",
+  "homepage": "https://developer.axonivy.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/axonivy/glsp-editor-client"
+  },
   "engines": {
     "node": ">=20.10.0"
   },
@@ -10,19 +17,19 @@
   },
   "scripts": {
     "ci": "npm install && npm run build && npm run package && npm run lint:ci && npm run test:ci",
-    "clean": "lerna run clean",
-    "build": "tsc --build && tscp --build",
-    "package": "lerna run package",
-    "type": "lerna run type",
-    "lint": "lerna run lint --",
     "lint:ci": "npm run lint -- -o eslint.xml -f checkstyle",
-    "lint:fix": "lerna run --parallel lint:fix --",
-    "dev": "npm run --workspace=@axonivy/viewer-integration dev",
-    "test": "lerna run test",
-    "test:ci": "lerna run test:ci",
-    "webtest": "lerna run webtest --",
-    "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws -t patch -u",
-    "publish:next": "lerna publish --exact --canary --preid next --pre-dist-tag next --no-git-tag-version --no-push --ignore-scripts --yes"
+    "clean": "rimraf lib build/* tsconfig.tsbuildinfo",
+    "lint": "eslint --ext .ts,.tsx ./src",
+    "type": "tsc",
+    "package": "vite build",
+    "dev": "vite",
+    "serve": "vite preview",
+    "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -t patch -u"
+  },
+  "dependencies": {
+    "@axonivy/process-editor": "~12.0.0-next.1161",
+    "@axonivy/ui-icons": "~12.0.0-next.326",
+    "@eclipse-glsp/client": "~2.2.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.5",
@@ -32,17 +39,16 @@
     "eslint-plugin-header": "^3.1.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-no-null": "^1.0.2",
-    "lerna": "^8.1.8",
     "prettier": "^2.8.0",
     "rimraf": "^6.0.1",
-    "typescript": "^5.5.4",
-    "typescript-cp": "^0.1.9"
+    "typescript": "~5.5.4",
+    "typescript-cp": "^0.1.9",
+    "@types/uuid": "^9.0.7",
+    "@vscode/codicons": "^0.0.25",
+    "path-browserify": "^1.0.1",
+    "reflect-metadata": "^0.1.13",
+    "vite": "^5.4.2",
+    "vite-tsconfig-paths": "^5.0.1"
   },
-  "workspaces": {
-    "packages": [
-      "packages/*",
-      "integration/*",
-      "playwright"
-    ]
-  }
+  "type": "module"
 }

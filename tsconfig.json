@@ -1,12 +1,31 @@
 {
-  "extends": "./configs/tsconfig.base.json",
-  "files": [],
   "compilerOptions": {
-    "noEmit": true
+    "moduleResolution": "Bundler",
+    "rootDir": "src",
+    "outDir": "lib",
+    "noImplicitAny": false,
+    "noEmit": true,
+    "types": ["vite/client"],
+    "incremental": true,
+    "skipLibCheck": true,
+    "noEmitOnError": false,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "downlevelIteration": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "ESNext",
+    "target": "ES2022",
+    "jsx": "react",
+    "jsxFactory": "JSX.createElement",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "sourceMap": true
   },
-  "references": [
-    { "path": "packages/editor/tsconfig.json" },
-    { "path": "packages/protocol/tsconfig.json" },
-    { "path": "integration/viewer/tsconfig.json" },
-  ]
+  "include": ["src"]
 }
+
+

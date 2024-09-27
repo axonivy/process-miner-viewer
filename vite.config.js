@@ -35,13 +35,6 @@ export default defineConfig(() => {
         return sourcePath.includes('node_modules') && !sourcePath.includes('@eclipse-glsp') && !sourcePath.includes('@axonivy');
       }
     },
-    resolve: {
-      alias: {
-        path: 'path-browserify',
-        '@axonivy/process-editor': resolve(__dirname, '../../packages/editor/src'),
-        '@axonivy/process-editor-protocol': resolve(__dirname, '../../packages/protocol/src')
-      }
-    },
     base: './',
     optimizeDeps: {
       needsInterop: [
