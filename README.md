@@ -14,7 +14,6 @@ However, it's of course also possible to use another text editor.
 ## Structure
 
 - `packages/editor`: GLSP-based Axon Ivy process editor
-- `packages/inscription`: UI extension for element inscription view
 - `packages/protocol`: GLSP actions for process editor
 - `integration/viewer`: Standalone integration of the process viewer
 
