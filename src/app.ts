@@ -46,7 +46,7 @@ wsProvider.listen({ onConnection: initialize, onReconnect: reconnect, logger: co
 
 let glspMiningClient: GLSPClient;
 const wsMining = new GLSPWebSocketProvider(mockUrl, { reconnectDelay: 5000, reconnectAttempts: 120 });
-wsMining.listen({ onConnection: initMining, onReconnect: reconnectMining });
+//wsMining.listen({ onConnection: initMining, onReconnect: reconnectMining });
 
 async function initMining(connectionProvider: MessageConnection, isReconnecting = false): Promise<void> {
   glspMiningClient = new IvyBaseJsonrpcGLSPClient({ id, connectionProvider });

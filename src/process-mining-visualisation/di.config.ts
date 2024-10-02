@@ -1,3 +1,8 @@
-import { FeatureModule, configureActionHandler } from '@eclipse-glsp/client';
+import { FeatureModule, configureActionHandler, configureCommand } from '@eclipse-glsp/client';
+import { MiningAction, MiningCommand } from './mining-action';
+import { SetMiningActionHandler } from './action';
 
-const ivyMiningModule = new FeatureModule((bind, _unbind, isBound) => {});
+export const ivyMiningModule = new FeatureModule((bind, _unbind, isBound) => {
+  configureActionHandler({ bind, isBound }, MiningAction.KIND, SetMiningActionHandler);
+  configureCommand({ bind, isBound }, MiningCommand);
+});
