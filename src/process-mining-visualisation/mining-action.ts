@@ -1,3 +1,4 @@
+import { Edge } from '@axonivy/process-editor';
 import { Action, Command, CommandExecutionContext, CommandReturn, TYPES, distinctAdd } from '@eclipse-glsp/client';
 import { inject, injectable } from 'inversify';
 
@@ -6,13 +7,20 @@ export interface MiningAction extends Action {
   data: MiningData;
 }
 
-export type MiningData = {
+export interface MiningData {
   processname: string;
   analysistype: string;
   numberofinstances: number;
-  nodes: object[];
+  nodes: MiningNode[];
   timeframe: object;
-};
+}
+
+export interface MiningNode {
+  type: string;
+  ID: string;
+  relativevalue: number;
+  labelvalue: string;
+}
 
 export namespace MiningAction {
   export const KIND = 'minigCommand';
@@ -28,6 +36,11 @@ export namespace MiningAction {
   }
 }
 
+/**
+ * "relativevalue": 0.75,
+ * "labelvalue": "317"
+ */
+
 @injectable()
 export class MiningCommand extends Command {
   static readonly KIND = MiningAction.KIND;
@@ -37,12 +50,21 @@ export class MiningCommand extends Command {
 
   execute(context: CommandExecutionContext): CommandReturn {
     const model = context.root;
-    let element = model.index.getById('15254DC87A1B183B-f4');
+    this.action.data.nodes.forEach(node => {
+      const element = model.index.getById(node.ID);
+      if (element instanceof Edge) {
+        if (element.args === undefined) {
+          element.args = {};
+        }
+        element.args['labelvalue'] = node.labelvalue;
+        element.args['relativevalue'] = node.relativevalue;
+      }
+      if (element?.cssClasses === undefined) {
+        element!.cssClasses = [];
+      }
+      distinctAdd(element!.cssClasses, 'test');
+    });
 
-    if (element?.cssClasses === undefined) {
-      element!.cssClasses = [];
-    }
-    distinctAdd(element!.cssClasses, 'test');
     return model;
   }
   undo(context: CommandExecutionContext): CommandReturn {

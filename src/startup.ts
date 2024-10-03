@@ -67,6 +67,4 @@ export const ivyStartupDiagramModule = new ContainerModule(bind => {
     .inSingletonScope();
 });
 
-const fetchMiningData = async (url: string) => {
-  return fetch(url);
-};
+const fetchMiningData = async (url: string) => fetch(url);
