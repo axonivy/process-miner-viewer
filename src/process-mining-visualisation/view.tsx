@@ -34,7 +34,7 @@ export class MiningView extends PolylineEdgeViewWithGapsOnIntersections {
       }
       line.data.style = { stroke: 'blue' };
     } else if (line.data) {
-      line.data.style = { stroke: edge.color };
+      line.data.style = { stroke: edge.color, 'stroke-width': '10' };
     }
     return line;
   }
