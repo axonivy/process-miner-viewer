@@ -28,7 +28,12 @@ export class MiningView extends PolylineEdgeViewWithGapsOnIntersections {
       }
     }
     const line = super.renderLine(edge, segments, context, undefined);
-    if (line.data) {
+    if (edge.args && edge.args['labelvalue']) {
+      if (!line.data) {
+        line.data = {};
+      }
+      line.data.style = { stroke: 'blue' };
+    } else if (line.data) {
       line.data.style = { stroke: edge.color };
     }
     return line;
