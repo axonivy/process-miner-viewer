@@ -1,6 +1,17 @@
 import { Edge } from '@axonivy/process-editor';
-import { Action, Command, CommandExecutionContext, CommandReturn, TYPES, distinctAdd } from '@eclipse-glsp/client';
+import {
+  Action,
+  Command,
+  CommandExecutionContext,
+  CommandReturn,
+  FitToScreenAction,
+  TYPES,
+  distinctAdd,
+  getModelBounds,
+  isViewport
+} from '@eclipse-glsp/client';
 import { inject, injectable } from 'inversify';
+import { DiagramCaption } from './DiagramCaption';
 
 export interface MiningAction extends Action {
   kind: typeof MiningAction.KIND;
@@ -65,6 +76,8 @@ export class MiningCommand extends Command {
       distinctAdd(element!.cssClasses, 'test');
     });
 
+    model.add(new DiagramCaption(model.canvasBounds, 'Start', 'start'));
+    model.add(new DiagramCaption(model.canvasBounds, 'End', 'end'));
     return model;
   }
   undo(context: CommandExecutionContext): CommandReturn {

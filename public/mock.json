@@ -5,32 +5,32 @@
     {
       "type": "arrow",
       "ID": "15254DC87A1B183B-f15",
-      "relativevalue": 0.75,
-      "labelvalue": "317"
+      "relativevalue": 0.25,
+      "labelvalue": "200"
     },
     {
       "type": "arrow",
       "ID": "15254DC87A1B183B-f20",
-      "relativevalue": 0.75,
-      "labelvalue": "317"
+      "relativevalue": 0.35,
+      "labelvalue": "300"
     },
     {
       "type": "arrow",
       "ID": "15254DC87A1B183B-f13",
-      "relativevalue": 0.75,
-      "labelvalue": "317"
+      "relativevalue": 0.45,
+      "labelvalue": "400"
     },
     {
       "type": "arrow",
       "ID": "15254DC87A1B183B-f12",
-      "relativevalue": 0.75,
-      "labelvalue": "317"
+      "relativevalue": 0.55,
+      "labelvalue": "500"
     },
     {
       "type": "arrow",
       "ID": "15254DC87A1B183B-f9",
       "relativevalue": 0.75,
-      "labelvalue": "317"
+      "labelvalue": "600"
     }
   ],
   "timeframe": {
