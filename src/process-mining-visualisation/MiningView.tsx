@@ -23,18 +23,19 @@ export class MiningView extends PolylineEdgeViewWithGapsOnIntersections {
     if (edge.args && edge.args['labelvalue'] !== undefined && edge.children.length > 0) {
       const label = edge.children[0];
       if (label instanceof EdgeLabel) {
-        label.text += edge.args['labelvalue'].toString();
+        label.text = edge.args['labelvalue'].toString();
         label.localToParent(edge.bounds);
       }
     }
     const line = super.renderLine(edge, segments, context, undefined);
-    if (edge.args && edge.args['labelvalue']) {
+    let strokeWidth = '';
+    let strokeColor = edge.color;
+    if (edge.args && edge.args['labelvalue'] && edge.args['relativevalue']) {
+      [strokeWidth, strokeColor] = this.getColorAndSize(edge);
       if (!line.data) {
         line.data = {};
       }
-      line.data.style = { stroke: 'blue' };
-    } else if (line.data) {
-      line.data.style = { stroke: edge.color, 'stroke-width': '10' };
+      line.data.style = { stroke: strokeColor, 'stroke-width': strokeWidth };
     }
     return line;
   }
@@ -43,7 +44,11 @@ export class MiningView extends PolylineEdgeViewWithGapsOnIntersections {
     const additionals = super.renderAdditionals(edge, segments, context);
     const edgePadding = this.edgePadding(edge);
     const edgePaddingNode = edgePadding ? [this.renderMouseHandle(segments, edgePadding)] : [];
-
+    let strokeWidth = '';
+    let strokeColor = edge.color;
+    if (edge.args && edge.args['labelvalue'] && edge.args['relativevalue']) {
+      [strokeWidth, strokeColor] = this.getColorAndSize(edge);
+    }
     const p1 = segments[segments.length - 2];
     const p2 = segments[segments.length - 1];
     const arrow = (
@@ -52,7 +57,7 @@ export class MiningView extends PolylineEdgeViewWithGapsOnIntersections {
         class-arrow={true}
         d='M 0.5,0 L 6,-3 L 6,3 Z'
         transform={`rotate(${toDegrees(angleOfPoint({ x: p1.x - p2.x, y: p1.y - p2.y }))} ${p2.x} ${p2.y}) translate(${p2.x} ${p2.y})`}
-        style={{ stroke: edge.color, fill: edge.color }}
+        style={{ stroke: strokeColor, fill: strokeColor, 'stroke-width': strokeWidth }}
       />
     );
     additionals.push(...edgePaddingNode, arrow);
@@ -97,5 +102,17 @@ export class MiningView extends PolylineEdgeViewWithGapsOnIntersections {
       // ingnore exception which can occur if one point of the segmet is NaN
       return '';
     }
+  }
+
+  protected getColorAndSize(edge: Edge): [string, string] {
+    if (!edge.args) {
+      return ['', ''];
+    }
+    const maxWidth = 20;
+    const modifier = Number(edge.args['relativevalue']);
+    const width = modifier * maxWidth;
+    const colorValue = 255 - 255 * modifier;
+    const color = '#0000' + colorValue.toString(16).split('.')[0].padStart(2, '0');
+    return [width.toString(), color];
   }
 }

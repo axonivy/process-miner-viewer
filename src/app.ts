@@ -15,15 +15,8 @@ if (!server) {
   server = getServerDomain().replace(app, '');
 }
 
-let miningUrl = 'tbd';
-
 const mock = parameters.has('mock');
-const mockUrl = 'http://localhost:3030';
-// TODO: change to only if mock
-if (mock || !mock) {
-  miningUrl = mockUrl;
-}
-
+const miningUrl = mock ? 'http://localhost:3000/mock.json' : 'tbd';
 const pmv = parameters.get('pmv') ?? '';
 const pid = parameters.get('pid') ?? '';
 const sourceUri = parameters.get('file') ?? '';
@@ -44,20 +37,6 @@ let container: Container;
 const wsProvider = new GLSPWebSocketProvider(webSocketUrl, { reconnectDelay: 5000, reconnectAttempts: 120 });
 wsProvider.listen({ onConnection: initialize, onReconnect: reconnect, logger: console });
 
-let glspMiningClient: GLSPClient;
-const wsMining = new GLSPWebSocketProvider(mockUrl, { reconnectDelay: 5000, reconnectAttempts: 120 });
-//wsMining.listen({ onConnection: initMining, onReconnect: reconnectMining });
-
-async function initMining(connectionProvider: MessageConnection, isReconnecting = false): Promise<void> {
-  glspMiningClient = new IvyBaseJsonrpcGLSPClient({ id, connectionProvider });
-  console.log(glspMiningClient);
-}
-
-async function reconnectMining(connectionProvider: MessageConnection) {
-  glspMiningClient.stop();
-  initMining(connectionProvider, true);
-}
-
 async function initialize(connectionProvider: MessageConnection, isReconnecting = false): Promise<void> {
   glspClient = new IvyBaseJsonrpcGLSPClient({ id, connectionProvider });
   container = createContainer({
@@ -69,7 +48,8 @@ async function initialize(connectionProvider: MessageConnection, isReconnecting 
     highlight,
     select,
     zoom,
-    theme
+    theme,
+    miningUrl
   });
 
   const diagramLoader = container.get(DiagramLoader);

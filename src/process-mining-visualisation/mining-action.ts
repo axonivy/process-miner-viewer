@@ -1,6 +1,8 @@
 import { Edge } from '@axonivy/process-editor';
-import { Action, Command, CommandExecutionContext, CommandReturn, TYPES, distinctAdd } from '@eclipse-glsp/client';
+import { Action, Bounds, Command, CommandExecutionContext, CommandReturn, TYPES, isBoundsAware } from '@eclipse-glsp/client';
 import { inject, injectable } from 'inversify';
+import { DiagramCaption } from './DiagramCaption';
+import { SModelRootImpl } from 'sprotty';
 
 export interface MiningAction extends Action {
   kind: typeof MiningAction.KIND;
@@ -12,7 +14,7 @@ export interface MiningData {
   analysistype: string;
   numberofinstances: number;
   nodes: MiningNode[];
-  timeframe: object;
+  timeframe: period;
 }
 
 export interface MiningNode {
@@ -20,6 +22,11 @@ export interface MiningNode {
   ID: string;
   relativevalue: number;
   labelvalue: string;
+}
+
+export interface period {
+  start: string;
+  end: string;
 }
 
 export namespace MiningAction {
@@ -36,14 +43,11 @@ export namespace MiningAction {
   }
 }
 
-/**
- * "relativevalue": 0.75,
- * "labelvalue": "317"
- */
-
 @injectable()
 export class MiningCommand extends Command {
   static readonly KIND = MiningAction.KIND;
+  startCaption: DiagramCaption;
+  endCaption: DiagramCaption;
   constructor(@inject(TYPES.Action) protected readonly action: MiningAction) {
     super();
   }
@@ -62,15 +66,42 @@ export class MiningCommand extends Command {
       if (element?.cssClasses === undefined) {
         element!.cssClasses = [];
       }
-      distinctAdd(element!.cssClasses, 'test');
     });
-
+    const bounds = this.getModelBounds(model);
+    this.startCaption = new DiagramCaption(bounds, `Analysis of ${this.action.data.processname}`, 'start');
+    this.endCaption = new DiagramCaption(
+      bounds,
+      `${this.action.data.numberofinstances} instances (investigation period: ${new Date(
+        this.action.data.timeframe.start
+      ).toDateString()} - ${new Date(this.action.data.timeframe.end).toDateString()})`,
+      'end'
+    );
+    model.add(this.startCaption);
+    model.add(this.endCaption);
     return model;
   }
+
   undo(context: CommandExecutionContext): CommandReturn {
-    throw new Error('Method not implemented.');
+    const model = context.root;
+    this.action.data.nodes.forEach(node => {
+      const element = model.index.getById(node.ID);
+      if (element instanceof Edge) {
+        if (element.args !== undefined) {
+          delete element.args['labelvalue'];
+          delete element.args['relativevalue'];
+        }
+      }
+    });
+    model.remove(this.startCaption);
+    model.remove(this.endCaption);
+    return model;
   }
   redo(context: CommandExecutionContext): CommandReturn {
-    throw new Error('Method not implemented.');
+    return this.execute(context);
   }
+
+  getModelBounds = (model: SModelRootImpl): Bounds => {
+    const itemBounds: Bounds[] = model.children.filter(isBoundsAware).map(e => e['bounds']);
+    return itemBounds.reduce((b1, b2) => Bounds.combine(b1, b2), Bounds.EMPTY);
+  };
 }

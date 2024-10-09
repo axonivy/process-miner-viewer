@@ -32,6 +32,7 @@ export interface IvyDiagramOptions extends IDiagramOptions {
   select: string | null;
   zoom: string;
   theme: ThemeMode;
+  miningUrl: string;
 }
 
 export default function createContainer(options: IvyDiagramOptions): Container {

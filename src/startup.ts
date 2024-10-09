@@ -36,7 +36,7 @@ export class ViewerDiagramStartup implements IDiagramStartup {
       );
     }
     actions.push(SwitchThemeAction.create({ theme: this.options.theme }));
-    actions.push(MiningAction.create({ data: await (await fetchMiningData('http://localhost:3000/mock.json')).json() }));
+    actions.push(MiningAction.create({ data: await (await fetchMiningData(this.options.miningUrl)).json() }));
     return this.actionDispatcher.dispatchAll(actions);
   }
 
