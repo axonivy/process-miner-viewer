@@ -25,12 +25,14 @@ import ivyViewerKeyListenerModule from './key-listener/di.config';
 import ivyNavigationModule from './navigate/di.config';
 import ivyViewerQuickActionModule from './quick-action/di.config';
 import { ivyStartupDiagramModule } from './startup';
+import { ivyMiningModule } from './process-mining-visualisation/di.config';
 
 export interface IvyDiagramOptions extends IDiagramOptions {
   highlight: string;
   select: string | null;
   zoom: string;
   theme: ThemeMode;
+  miningUrl: string;
 }
 
 export default function createContainer(options: IvyDiagramOptions): Container {
@@ -41,6 +43,7 @@ export default function createContainer(options: IvyDiagramOptions): Container {
     ivyThemeModule,
     ivyNavigationModule,
     ivyStartupDiagramModule,
+    ivyMiningModule,
     {
       remove: [
         ivyLabelEditModule,
