@@ -16,7 +16,9 @@ if (!server) {
 }
 
 const mock = parameters.has('mock');
-const miningUrl = mock ? 'http://localhost:3000/mock.json' : 'tbd';
+const mockParameter = parameters.get('mock');
+const mockUrl = mockParameter ? mockParameter : 'http://localhost:3000/mock.json';
+const miningUrl = mock ? mockUrl : 'tbd';
 const pmv = parameters.get('pmv') ?? '';
 const pid = parameters.get('pid') ?? '';
 const sourceUri = parameters.get('file') ?? '';

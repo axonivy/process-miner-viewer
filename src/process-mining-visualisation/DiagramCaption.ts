@@ -1,7 +1,6 @@
 import { Bounds, GLabel } from '@eclipse-glsp/client';
 
 export class DiagramCaption extends GLabel {
-  // find fitting type
   static readonly TYPE = 'diagram-caption';
   constructor(
     public readonly canvasBounds: Bounds = Bounds.EMPTY,

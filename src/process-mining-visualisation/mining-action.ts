@@ -63,9 +63,6 @@ export class MiningCommand extends Command {
         element.args['labelvalue'] = node.labelvalue;
         element.args['relativevalue'] = node.relativevalue;
       }
-      if (element?.cssClasses === undefined) {
-        element!.cssClasses = [];
-      }
     });
     const bounds = this.getModelBounds(model);
     this.startCaption = new DiagramCaption(bounds, `Analysis of ${this.action.data.processname}`, 'start');

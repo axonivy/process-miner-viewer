@@ -8,11 +8,12 @@ import {
   PolylineEdgeViewWithGapsOnIntersections,
   SEdgeImpl,
   angleOfPoint,
-  toDegrees
+  toDegrees,
+  GArgument
 } from '@eclipse-glsp/client';
 import { VNode } from 'snabbdom';
 import { injectable } from 'inversify';
-import { Edge, EdgeLabel } from '@axonivy/process-editor';
+import { Edge } from '@axonivy/process-editor';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const JSX = { createElement: svg };
@@ -20,17 +21,16 @@ const JSX = { createElement: svg };
 @injectable()
 export class MiningView extends PolylineEdgeViewWithGapsOnIntersections {
   protected renderLine(edge: Edge, segments: Point[], context: RenderingContext): VNode {
-    if (edge.args && edge.args['labelvalue'] !== undefined && edge.children.length > 0) {
-      const label = edge.children[0];
-      if (label instanceof EdgeLabel) {
-        label.text = edge.args['labelvalue'].toString();
-        label.localToParent(edge.bounds);
+    if (GArgument.getString(edge, 'labelvalue')) {
+      const label = edge.editableLabel;
+      if (label) {
+        label.text = edge.args!['labelvalue'].toString();
       }
     }
     const line = super.renderLine(edge, segments, context, undefined);
     let strokeWidth = '';
     let strokeColor = edge.color;
-    if (edge.args && edge.args['labelvalue'] && edge.args['relativevalue']) {
+    if (GArgument.getString(edge, 'labelvalue') && GArgument.getNumber(edge, 'relativevalue')) {
       [strokeWidth, strokeColor] = this.getColorAndSize(edge);
       if (!line.data) {
         line.data = {};

@@ -9,9 +9,8 @@ export class SetMiningActionHandler implements IActionHandler {
 
   handle(action: Action): Action | void {
     if (MiningAction.is(action.kind)) {
-      const miningAction = MiningAction.create({ data: (action as MiningAction).data });
       this.modelInitializationConstraint.onInitialized(() => {
-        this.feedbackDispatcher.registerFeedback(this, [miningAction]);
+        this.feedbackDispatcher.registerFeedback(this, [action]);
       });
     }
   }
