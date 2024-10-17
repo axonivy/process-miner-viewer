@@ -15,10 +15,7 @@ if (!server) {
   server = getServerDomain().replace(app, '');
 }
 
-const mock = parameters.has('mock');
-const mockParameter = parameters.get('mock');
-const mockUrl = mockParameter ? mockParameter : 'http://localhost:3000/mock.json';
-const miningUrl = mock ? mockUrl : 'tbd';
+const miningUrl = parameters.get('miningUrl') ?? 'http://localhost:3000/mock.json';
 const pmv = parameters.get('pmv') ?? '';
 const pid = parameters.get('pid') ?? '';
 const sourceUri = parameters.get('file') ?? '';
