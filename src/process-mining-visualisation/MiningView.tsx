@@ -46,7 +46,7 @@ export class MiningView extends PolylineEdgeViewWithGapsOnIntersections {
     const edgePaddingNode = edgePadding ? [this.renderMouseHandle(segments, edgePadding)] : [];
     let strokeWidth = '';
     let strokeColor = edge.color;
-    if (edge.args && edge.args['labelvalue'] && edge.args['relativevalue']) {
+    if (GArgument.getString(edge, 'labelvalue') && GArgument.getNumber(edge, 'relativevalue')) {
       [strokeWidth, strokeColor] = this.getColorAndSize(edge);
     }
     const p1 = segments[segments.length - 2];
@@ -109,7 +109,7 @@ export class MiningView extends PolylineEdgeViewWithGapsOnIntersections {
       return ['', ''];
     }
     const maxWidth = 20;
-    const modifier = Number(edge.args['relativevalue']);
+    const modifier = GArgument.getNumber(edge, 'relativevalue') ?? 1;
     const width = modifier * maxWidth;
     const colorValue = 255 - 255 * modifier;
     const color = '#0000' + colorValue.toString(16).split('.')[0].padStart(2, '0');
