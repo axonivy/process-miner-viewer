@@ -13,7 +13,36 @@ However, it's of course also possible to use another text editor.
 
 ### Launch config prerequisites
 
-Project "workflow-demos" is required to be running in a designer on port 8081.
+Project [workflow-demos](https://market.axonivy.com/workflow-demo) is required to be running in a [designer](https://dev.axonivy.com/download) on port 8081.
+
+---
+
+## Commands
+
+```bash
+#install node modules
+npm install
+
+#run the viewer
+npm run dev
+
+#build the vievwer
+npm run package
+```
+
+## Running the process editor
+
+To start the viewer, you can start the **Launch Viewer** config directly inside VS Code. For this to work, the project **workflow-demos** is required to be running in a designer on port 8081.
+
+- **Mining-Data**:
+  As default, mock-data from `http://localhost:3000/mock.json` is used.<br>
+  To provide a URL for the mining-data the urlparameter **miningUrl** can be used e.g. `http://localhost/[url]&miningUrl=customUrl`
+
+---
+
+## Implementation in ivy project
+
+TBD
 
 ---
 
@@ -43,26 +72,6 @@ Is called when rendering a DiagramCaption. Uses the `location` and `canvasBounds
 mock-mining-data used when no miningUrl url-parameter is specified
 
 The mining-action is fired in [`src/startup.ts`](src/startup.ts) after the model is initialized.
-
----
-
-## Commands
-
-```bash
-#install node modules
-npm install
-
-#run the viewer
-npm run dev
-```
-
-## Running the process editor
-
-To start the viewer, you can start the **Launch Viewer** config directly inside VS Code. For this to work, the project **workflow-demos** is required to be running in a designer on port 8081.
-
-- **Mining-Data**:
-  As default, mock-data from `http://localhost:3000/mock.json` is used.<br>
-  To provide a URL for the mining-data the urlparameter **miningUrl** can be used e.g. `http://localhost/[url]&miningUrl=customUrl`
 
 ---
 
