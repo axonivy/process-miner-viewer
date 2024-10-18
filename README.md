@@ -42,7 +42,33 @@ To start the viewer, you can start the **Launch Viewer** config directly inside 
 
 ## Implementation in ivy project
 
-TBD
+1. build the viewer via `npm run package`
+2. copy **build/mock.json** and contents of **build/assets** into **webcontent/resources** in ivy project
+3. copy **build/index.html** to **webcontent/view/process-miner.xhtml**
+4. open **process-miner.xhtml** make following edits:
+   - Add required libraries to html tag:
+     ```xhtml
+     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:h="http://xmlns.jcp.org/jsf/html"></html>
+     ```
+   - replace `<head>` with `<h:head>`
+   - replace js and css with `<h:outputScript>` and `<h:outputStylesheet>`:
+     ```xhtml
+     <h:outputScript name="resources/index-CmkAVbW5.js" />
+     <h:outputStylesheet name="resources/index-C332O8_T.css" library="ivy-webcontent" />
+     ```
+
+The process-miner-viewer can now be used in any dialog using an iframe:
+
+- For the url-parameters to work, all **&** have to be replaced with **\&amp;**
+- To use the mock-data provided in **mock.json** the miningUrl parameter has to be set to: `#{resource['resources/mock.json']}`
+
+```xhtml
+<iframe
+  src="/designer/faces/view/DemoProject/process-miner.xhtml?server=localhost:8081&amp;app=designer&amp;pmv=workflow-demos&amp;file=/processes/Humantask/ProcurementRequestParallel.p.json&amp;miningUrl=#{resource['resources/mock.json']}"
+  width="1000"
+  height="900"
+></iframe>
+```
 
 ---
 
@@ -63,10 +89,10 @@ MiningAction used to display mining-data. MiningCommand (execute) is called when
 Is called when rendering an Edge. If **labelvalue** and **relativevalue** exist, modifies edge by incresing stroke-width and color according to **relativevalue**. Uses the text from **labelvalue** as edge-label.
 
 [`DiagramCaption.ts`](src/process-mining-visualisation/DiagramCaption.ts)<br>
-Class used to display title and instances for diagram. Requires `canvasBounds`, `caption` and `location`
+Class used to display title and instances for diagram. Requires **canvasBounds**, **caption** and **location**
 
 [`DiagramCaptionView.tsx`](src/process-mining-visualisation/DiagramCaptionView.tsx)<br>
-Is called when rendering a DiagramCaption. Uses the `location` and `canvasBounds` to calculate location.
+Is called when rendering a DiagramCaption. Uses the **location** and **canvasBounds** to calculate location.
 
 [`public/mock.json`](public/mock.json)<br>
 mock-mining-data used when no miningUrl url-parameter is specified
