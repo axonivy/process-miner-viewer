@@ -30,13 +30,26 @@ npm run dev
 npm run package
 ```
 
-## Running the process editor
+## Running the process miner in VS Code
 
 To start the viewer, you can start the **Launch Viewer** config directly inside VS Code. For this to work, the project **workflow-demos** is required to be running in a designer on port 8081.
 
-- **Mining-Data**:
-  As default, mock-data from `http://localhost:3000/mock.json` is used.<br>
-  To provide a URL for the mining-data the urlparameter **miningUrl** can be used e.g. `http://localhost/[url]&miningUrl=customUrl`
+## Running the process miner via commandline
+
+To start the viewer via cli, you can run `npm run dev`.<br>
+The viewer will now run at `http://localhost:3000`. To access it you can open the URL in a browser. Following url parameter are required to open the **workflow-demos** with the default mock-mining-data:
+
+- server=localhost:8081
+- app=designer
+- pmv=workflow-demos
+- file=/processes/Humantask/ProcurementRequestParallel.p.json
+
+e.g. [`http://localhost:3000?server=localhost:8081&app=designer&pmv=workflow-demos&file=/processes/Humantask/ProcurementRequestParallel.p.json`](http://localhost:3000?server=localhost:8081&app=designer&pmv=workflow-demos&file=/processes/Humantask/ProcurementRequestParallel.p.json)
+
+## Mining-Data
+
+As default, mock-data from `http://localhost:3000/mock.json` is used.<br>
+To provide a URL for the mining-data the url-parameter **miningUrl** can be used e.g. `http://localhost:3000/[url]&miningUrl=customUrl`
 
 ---
 
