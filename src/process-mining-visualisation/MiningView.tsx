@@ -9,7 +9,7 @@ import {
   SEdgeImpl,
   angleOfPoint,
   toDegrees,
-  GArgument
+  GLabel
 } from '@eclipse-glsp/client';
 import { VNode } from 'snabbdom';
 import { injectable } from 'inversify';
@@ -20,44 +20,36 @@ const JSX = { createElement: svg };
 
 @injectable()
 export class MiningView extends PolylineEdgeViewWithGapsOnIntersections {
-  protected renderLine(edge: Edge, segments: Point[], context: RenderingContext): VNode {
-    if (GArgument.getString(edge, 'labelvalue')) {
-      const label = edge.editableLabel;
-      if (label) {
-        label.text = edge.args!['labelvalue'].toString();
-      }
-    }
-    const line = super.renderLine(edge, segments, context, undefined);
-    let strokeWidth = '';
-    let strokeColor = edge.color;
-    if (GArgument.getString(edge, 'labelvalue') && GArgument.getNumber(edge, 'relativevalue')) {
-      [strokeWidth, strokeColor] = this.getColorAndSize(edge);
-      if (!line.data) {
-        line.data = {};
-      }
-      line.data.style = { stroke: strokeColor, 'stroke-width': strokeWidth };
-    }
-    return line;
-  }
-
   protected renderAdditionals(edge: Edge, segments: Point[], context: RenderingContext): VNode[] {
     const additionals = super.renderAdditionals(edge, segments, context);
     const edgePadding = this.edgePadding(edge);
     const edgePaddingNode = edgePadding ? [this.renderMouseHandle(segments, edgePadding)] : [];
-    let strokeWidth = '';
-    let strokeColor = edge.color;
-    if (GArgument.getString(edge, 'labelvalue') && GArgument.getNumber(edge, 'relativevalue')) {
-      [strokeWidth, strokeColor] = this.getColorAndSize(edge);
-    }
     const p1 = segments[segments.length - 2];
     const p2 = segments[segments.length - 1];
+    if (edge.args) {
+      edge.args['segments'] = JSON.stringify(segments);
+    }
+    if (segments.length <= 2) {
+      const label = edge.editableLabel as GLabel;
+      const descLabelOrigin = edge.args!['editableLabelOrigin'];
+      if (label && label.text !== '' && descLabelOrigin) {
+        const xOffset = p2.x - p1.x;
+        const p = JSON.parse(descLabelOrigin.toString());
+        if (xOffset > 0) {
+          p.x -= 10;
+        } else {
+          p.y -= 10;
+        }
+        label.position = p;
+      }
+    }
+
     const arrow = (
       <path
         class-sprotty-edge={true}
         class-arrow={true}
         d='M 0.5,0 L 6,-3 L 6,3 Z'
         transform={`rotate(${toDegrees(angleOfPoint({ x: p1.x - p2.x, y: p1.y - p2.y }))} ${p2.x} ${p2.y}) translate(${p2.x} ${p2.y})`}
-        style={{ stroke: strokeColor, fill: strokeColor, 'stroke-width': strokeWidth }}
       />
     );
     additionals.push(...edgePaddingNode, arrow);
@@ -102,17 +94,5 @@ export class MiningView extends PolylineEdgeViewWithGapsOnIntersections {
       // ingnore exception which can occur if one point of the segmet is NaN
       return '';
     }
-  }
-
-  protected getColorAndSize(edge: Edge): [string, string] {
-    if (!edge.args) {
-      return ['', ''];
-    }
-    const maxWidth = 20;
-    const modifier = GArgument.getNumber(edge, 'relativevalue') ?? 1;
-    const width = modifier * maxWidth;
-    const colorValue = 255 - 255 * modifier;
-    const color = '#0000' + colorValue.toString(16).split('.')[0].padStart(2, '0');
-    return [width.toString(), color];
   }
 }

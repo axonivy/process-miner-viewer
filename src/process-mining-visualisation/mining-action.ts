@@ -1,5 +1,5 @@
-import { Edge } from '@axonivy/process-editor';
-import { Action, Bounds, Command, CommandExecutionContext, CommandReturn, TYPES, isBoundsAware } from '@eclipse-glsp/client';
+import { Edge, EdgeLabel } from '@axonivy/process-editor';
+import { Action, Bounds, Command, CommandExecutionContext, CommandReturn, GLabel, TYPES, isBoundsAware } from '@eclipse-glsp/client';
 import { inject, injectable } from 'inversify';
 import { DiagramCaption } from './DiagramCaption';
 import { SModelRootImpl } from 'sprotty';
@@ -55,13 +55,20 @@ export class MiningCommand extends Command {
   execute(context: CommandExecutionContext): CommandReturn {
     const model = context.root;
     this.action.data.nodes.forEach(node => {
-      const element = model.index.getById(node.ID);
-      if (element instanceof Edge) {
-        if (element.args === undefined) {
-          element.args = {};
+      const edge = model.index.getById(node.ID);
+      if (edge instanceof Edge) {
+        if (edge.args === undefined) {
+          edge.args = {};
         }
-        element.args['labelvalue'] = node.labelvalue;
-        element.args['relativevalue'] = node.relativevalue;
+        const editableLabel = edge.editableLabel as GLabel;
+        if (editableLabel && editableLabel.text !== '') {
+          edge.args['editableLabelOrigin'] = JSON.stringify(editableLabel.position);
+        }
+        edge.args['relativevalue'] = node.relativevalue;
+        const label = new EdgeLabel();
+        label.type = 'edge:label:mining';
+        label.text = node.labelvalue;
+        edge.add(label);
       }
     });
     const bounds = this.getModelBounds(model);
