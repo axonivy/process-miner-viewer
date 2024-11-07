@@ -1,18 +1,19 @@
-import { svg, RenderingContext, GLabelView, GLabel } from '@eclipse-glsp/client';
+import { svg, RenderingContext, GLabelView } from '@eclipse-glsp/client';
 import { VNode } from 'snabbdom';
 import { injectable } from 'inversify';
+import { MiningLabel } from './MiningLabel';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const JSX = { createElement: svg };
 
 @injectable()
 export class MiningLabelView extends GLabelView {
-  render(label: GLabel, context: RenderingContext): VNode | undefined {
-    if (!label.parent['args']['segments']) {
+  render(label: MiningLabel, context: RenderingContext): VNode | undefined {
+    if (label.segments.length < 2) {
       return;
     }
-    const props = this.getCircleProps(label.parent['args']['relativevalue']);
-    const segments = JSON.parse(label.parent['args']['segments']);
+    const props = this.getCircleProps(label.relativeValue);
+    const segments = label.segments;
     const p1 = segments[segments.length - 2];
     const p2 = segments[segments.length - 1];
     const p = {
@@ -24,7 +25,6 @@ export class MiningLabelView extends GLabelView {
     } else {
       p.y -= 3;
     }
-
     return (
       <g>
         <circle cy={p.y} cx={p.x} stroke='var(--glsp-border)' fill={props.color} stroke-width='0' r={props.r}></circle>
