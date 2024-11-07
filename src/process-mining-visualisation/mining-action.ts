@@ -1,8 +1,9 @@
 import { Edge } from '@axonivy/process-editor';
-import { Action, Bounds, Command, CommandExecutionContext, CommandReturn, TYPES, isBoundsAware } from '@eclipse-glsp/client';
+import { Action, Bounds, Command, CommandExecutionContext, CommandReturn, GLabel, TYPES, isBoundsAware } from '@eclipse-glsp/client';
 import { inject, injectable } from 'inversify';
 import { DiagramCaption } from './DiagramCaption';
-import { SModelRootImpl } from 'sprotty';
+import { EdgeRouterRegistry, RoutedPoint, SModelRootImpl } from 'sprotty';
+import { MiningLabel } from './MiningLabel';
 
 export interface MiningAction extends Action {
   kind: typeof MiningAction.KIND;
@@ -52,16 +53,17 @@ export class MiningCommand extends Command {
     super();
   }
 
+  @inject(EdgeRouterRegistry) edgeRouterRegistry: EdgeRouterRegistry;
+
   execute(context: CommandExecutionContext): CommandReturn {
     const model = context.root;
     this.action.data.nodes.forEach(node => {
-      const element = model.index.getById(node.ID);
-      if (element instanceof Edge) {
-        if (element.args === undefined) {
-          element.args = {};
-        }
-        element.args['labelvalue'] = node.labelvalue;
-        element.args['relativevalue'] = node.relativevalue;
+      const edge = model.index.getById(node.ID);
+      if (edge instanceof Edge) {
+        const segments = this.edgeRouterRegistry.route(edge, edge.args);
+        const miningLabel = new MiningLabel(node.labelvalue, node.relativevalue, segments);
+        this.moveExistingLabel(edge.editableLabel as GLabel, segments);
+        edge.add(miningLabel);
       }
     });
     const bounds = this.getModelBounds(model);
@@ -100,5 +102,28 @@ export class MiningCommand extends Command {
   getModelBounds = (model: SModelRootImpl): Bounds => {
     const itemBounds: Bounds[] = model.children.filter(isBoundsAware).map(e => e['bounds']);
     return itemBounds.reduce((b1, b2) => Bounds.combine(b1, b2), Bounds.EMPTY);
+  };
+
+  moveExistingLabel = (label: GLabel, segments: Array<RoutedPoint>) => {
+    if (!label || label.text === '' || segments.length < 2) {
+      return;
+    }
+    const p1 = segments[segments.length - 2];
+    const p2 = segments[segments.length - 1];
+    const p = { ...label.position };
+    const pM = {
+      x: p2.x - (p2.x - p1.x) / 2,
+      y: p2.y - (p2.y - p1.y) / 2
+    };
+    const distance = Math.sqrt(Math.pow(p.x - pM.x, 2) + Math.pow(p.y - pM.y, 2));
+    if (distance < 30) {
+      const xOffset = p2.x - p1.x;
+      if (xOffset > 0) {
+        p.x -= 10;
+      } else {
+        p.y -= 10;
+      }
+      label.position = p;
+    }
   };
 }
