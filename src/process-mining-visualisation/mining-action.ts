@@ -11,18 +11,18 @@ export interface MiningAction extends Action {
 }
 
 export interface MiningData {
-  processname: string;
-  analysistype: string;
-  numberofinstances: number;
+  processName: string;
+  analysisType: string;
+  numberOfInstances: number;
   nodes: MiningNode[];
-  timeframe: period;
+  timeFrame: period;
 }
 
 export interface MiningNode {
   type: string;
-  ID: string;
-  relativevalue: number;
-  labelvalue: string;
+  id: string;
+  relativeValue: number;
+  labelValue: number;
 }
 
 export interface period {
@@ -58,21 +58,21 @@ export class MiningCommand extends Command {
   execute(context: CommandExecutionContext): CommandReturn {
     const model = context.root;
     this.action.data.nodes.forEach(node => {
-      const edge = model.index.getById(node.ID);
+      const edge = model.index.getById(node.id);
       if (edge instanceof Edge) {
         const segments = this.edgeRouterRegistry.route(edge, edge.args);
-        const miningLabel = new MiningLabel(node.labelvalue, node.relativevalue, segments);
+        const miningLabel = new MiningLabel(node.labelValue.toString(), node.relativeValue, segments);
         this.moveExistingLabel(edge.editableLabel as GLabel, segments);
         edge.add(miningLabel);
       }
     });
     const bounds = this.getModelBounds(model);
-    this.startCaption = new DiagramCaption(bounds, `Analysis of ${this.action.data.processname}`, 'start');
+    this.startCaption = new DiagramCaption(bounds, `Analysis of ${this.action.data.processName}`, 'start');
     this.endCaption = new DiagramCaption(
       bounds,
-      `${this.action.data.numberofinstances} instances (investigation period: ${new Date(
-        this.action.data.timeframe.start
-      ).toDateString()} - ${new Date(this.action.data.timeframe.end).toDateString()})`,
+      `${this.action.data.numberOfInstances} instances (investigation period: ${new Date(
+        this.action.data.timeFrame.start
+      ).toDateString()} - ${new Date(this.action.data.timeFrame.end).toDateString()})`,
       'end'
     );
     model.add(this.startCaption);
@@ -83,7 +83,7 @@ export class MiningCommand extends Command {
   undo(context: CommandExecutionContext): CommandReturn {
     const model = context.root;
     this.action.data.nodes.forEach(node => {
-      const element = model.index.getById(node.ID);
+      const element = model.index.getById(node.id);
       if (element instanceof Edge) {
         if (element.args !== undefined) {
           delete element.args['labelvalue'];
