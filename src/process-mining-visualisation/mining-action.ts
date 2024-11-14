@@ -101,7 +101,11 @@ export class MiningCommand extends Command {
 
   getModelBounds = (model: SModelRootImpl): Bounds => {
     const itemBounds: Bounds[] = model.children.filter(isBoundsAware).map(e => e['bounds']);
-    return itemBounds.reduce((b1, b2) => Bounds.combine(b1, b2), Bounds.EMPTY);
+    const maxY = Math.max(...itemBounds.map(e => e.y));
+    const maxX = Math.max(...itemBounds.map(e => e.x));
+    const minX = Math.min(...itemBounds.map(e => e.x));
+    const minY = Math.min(...itemBounds.map(e => e.y));
+    return { x: minX, y: minY, height: maxY, width: maxX };
   };
 
   moveExistingLabel = (label: GLabel, segments: Array<RoutedPoint>) => {
