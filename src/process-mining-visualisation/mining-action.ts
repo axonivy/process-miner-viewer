@@ -122,10 +122,11 @@ export class MiningCommand extends Command {
     const distance = Math.sqrt(Math.pow(p.x - pM.x, 2) + Math.pow(p.y - pM.y, 2));
     if (distance < 30) {
       const xOffset = p2.x - p1.x;
-      if (xOffset > 0) {
-        p.x -= 10;
+      const yOffset = p2.y - p1.y;
+      if (xOffset > yOffset) {
+        p.y += 30 - distance;
       } else {
-        p.y -= 10;
+        p.x += 30 - distance;
       }
       label.position = p;
     }
