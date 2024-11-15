@@ -101,7 +101,14 @@ export class MiningCommand extends Command {
 
   getModelBounds = (model: SModelRootImpl): Bounds => {
     const itemBounds: Bounds[] = model.children.filter(isBoundsAware).map(e => e['bounds']);
-    return itemBounds.reduce((b1, b2) => Bounds.combine(b1, b2), Bounds.EMPTY);
+    const bounds = { x: 0, y: 0, width: 0, height: 0 };
+    itemBounds.forEach(b => {
+      bounds.x = Math.min(bounds.x, b.x);
+      bounds.y = Math.min(bounds.y, b.y);
+      bounds.width = Math.max(bounds.width, b.x);
+      bounds.height = Math.max(bounds.height, b.y + b.height);
+    });
+    return bounds;
   };
 
   moveExistingLabel = (label: GLabel, segments: Array<RoutedPoint>) => {
@@ -118,10 +125,11 @@ export class MiningCommand extends Command {
     const distance = Math.sqrt(Math.pow(p.x - pM.x, 2) + Math.pow(p.y - pM.y, 2));
     if (distance < 30) {
       const xOffset = p2.x - p1.x;
-      if (xOffset > 0) {
-        p.x -= 10;
+      const yOffset = p2.y - p1.y;
+      if (xOffset > yOffset) {
+        p.y += 30 - distance;
       } else {
-        p.y -= 10;
+        p.x += 30 - distance;
       }
       label.position = p;
     }
