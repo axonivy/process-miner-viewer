@@ -11,7 +11,7 @@ export class DiagramCaptionView extends GLabelView {
     const x = node.canvasBounds.x;
     let y = node.canvasBounds.y - 20;
     if (node.location === 'end') {
-      y = node.canvasBounds.height + 90;
+      y = node.canvasBounds.height + 40;
     }
     return (
       <g>
