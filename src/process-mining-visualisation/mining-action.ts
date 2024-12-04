@@ -9,7 +9,7 @@ export interface MiningAction extends Action {
   kind: typeof MiningAction.KIND;
 }
 
-export interface period {
+export interface Period {
   start: string;
   end: string;
 }
