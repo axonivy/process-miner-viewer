@@ -1,4 +1,11 @@
-import { Action, IActionHandler, IFeedbackActionDispatcher, ModelInitializationConstraint, TYPES } from '@eclipse-glsp/client';
+import {
+  Action,
+  GLSPActionDispatcher,
+  IActionHandler,
+  IFeedbackActionDispatcher,
+  ModelInitializationConstraint,
+  TYPES
+} from '@eclipse-glsp/client';
 import { inject, injectable } from 'inversify';
 import { MiningAction } from './mining-action';
 
@@ -14,4 +21,10 @@ export class SetMiningActionHandler implements IActionHandler {
       });
     }
   }
+}
+
+@injectable()
+export class MiningActionHandler implements IActionHandler {
+  @inject(GLSPActionDispatcher) protected actionDispatcher: GLSPActionDispatcher;
+  handle = (_: Action): void => this.actionDispatcher.dispatchAfterNextUpdate(MiningAction.create());
 }
