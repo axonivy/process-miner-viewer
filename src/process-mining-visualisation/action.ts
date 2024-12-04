@@ -1,17 +1,11 @@
-import { Action, IActionHandler, IFeedbackActionDispatcher, ModelInitializationConstraint, TYPES } from '@eclipse-glsp/client';
+import { Action, GLSPActionDispatcher, IActionHandler } from '@eclipse-glsp/client';
 import { inject, injectable } from 'inversify';
 import { MiningAction } from './mining-action';
 
 @injectable()
 export class SetMiningActionHandler implements IActionHandler {
-  @inject(TYPES.IFeedbackActionDispatcher) protected feedbackDispatcher: IFeedbackActionDispatcher;
-  @inject(ModelInitializationConstraint) protected modelInitializationConstraint: ModelInitializationConstraint;
-
-  handle(action: Action): Action | void {
-    if (MiningAction.is(action.kind)) {
-      this.modelInitializationConstraint.onInitialized(() => {
-        this.feedbackDispatcher.registerFeedback(this, [action]);
-      });
-    }
-  }
+  @inject(GLSPActionDispatcher) protected actionDispatcher: GLSPActionDispatcher;
+  handle = (_: Action): void => {
+    this.actionDispatcher.dispatch(MiningAction.create());
+  };
 }

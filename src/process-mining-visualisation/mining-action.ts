@@ -7,7 +7,11 @@ import { MiningLabel } from './MiningLabel';
 
 export interface MiningAction extends Action {
   kind: typeof MiningAction.KIND;
-  data: MiningData;
+}
+
+export interface period {
+  start: string;
+  end: string;
 }
 
 export interface MiningData {
@@ -25,17 +29,16 @@ export interface MiningNode {
   labelValue: number;
 }
 
-export interface period {
-  start: string;
-  end: string;
+@injectable()
+export class MiningUrl {
+  readonly url: string;
 }
 
 export namespace MiningAction {
   export const KIND = 'minigCommand';
-  export function create(options: { data: MiningData }): MiningAction {
+  export function create(): MiningAction {
     return {
-      kind: KIND,
-      ...options
+      kind: KIND
     };
   }
 
@@ -47,8 +50,7 @@ export namespace MiningAction {
 @injectable()
 export class MiningCommand extends Command {
   static readonly KIND = MiningAction.KIND;
-  startCaption: DiagramCaption;
-  endCaption: DiagramCaption;
+  @inject(MiningUrl) protected miningData: MiningUrl;
   constructor(@inject(TYPES.Action) protected readonly action: MiningAction) {
     super();
   }
@@ -57,7 +59,15 @@ export class MiningCommand extends Command {
 
   execute(context: CommandExecutionContext): CommandReturn {
     const model = context.root;
-    this.action.data.nodes.forEach(node => {
+    if (model.children.filter(e => e.type === DiagramCaption.TYPE).length > 0) {
+      return model;
+    }
+    return this.populate(model);
+  }
+
+  async populate(model: SModelRootImpl) {
+    const data: MiningData = await (await fetch(this.miningData.url)).json();
+    data.nodes.forEach(node => {
       const edge = model.index.getById(node.id);
       if (edge instanceof Edge) {
         const segments = this.edgeRouterRegistry.route(edge, edge.args);
@@ -67,32 +77,23 @@ export class MiningCommand extends Command {
       }
     });
     const bounds = this.getModelBounds(model);
-    this.startCaption = new DiagramCaption(bounds, `Analysis of ${this.action.data.processName}`, 'start');
-    this.endCaption = new DiagramCaption(
+    const startCaption = new DiagramCaption(bounds, `Analysis of ${data.processName}`, 'start');
+    const endCaption = new DiagramCaption(
       bounds,
-      `${this.action.data.numberOfInstances} instances (investigation period: ${new Date(
-        this.action.data.timeFrame.start
-      ).toDateString()} - ${new Date(this.action.data.timeFrame.end).toDateString()})`,
+      `${data.numberOfInstances} instances (investigation period: ${new Date(data.timeFrame.start).toDateString()} - ${new Date(
+        data.timeFrame.end
+      ).toDateString()})`,
       'end'
     );
-    model.add(this.startCaption);
-    model.add(this.endCaption);
+    model.add(startCaption);
+    model.add(endCaption);
     return model;
   }
 
   undo(context: CommandExecutionContext): CommandReturn {
     const model = context.root;
-    this.action.data.nodes.forEach(node => {
-      const element = model.index.getById(node.id);
-      if (element instanceof Edge) {
-        if (element.args !== undefined) {
-          delete element.args['labelvalue'];
-          delete element.args['relativevalue'];
-        }
-      }
-    });
-    model.remove(this.startCaption);
-    model.remove(this.endCaption);
+    model.removeAll(e => e.type === MiningLabel.TYPE);
+    model.removeAll(e => e.type === DiagramCaption.TYPE);
     return model;
   }
   redo(context: CommandExecutionContext): CommandReturn {

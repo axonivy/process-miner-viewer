@@ -3,7 +3,6 @@ import { Action, CenterAction, GLSPActionDispatcher, IDiagramStartup, Navigation
 import { ContainerModule, inject, injectable, interfaces } from 'inversify';
 import { IvyDiagramOptions } from './di.config';
 import { isInPreviewMode } from './url-helper';
-import { MiningAction } from './process-mining-visualisation/mining-action';
 
 const ContainerSymbol = Symbol('ContainerSymbol');
 
@@ -36,7 +35,6 @@ export class ViewerDiagramStartup implements IDiagramStartup {
       );
     }
     actions.push(SwitchThemeAction.create({ theme: this.options.theme }));
-    actions.push(MiningAction.create({ data: await (await fetchMiningData(this.options.miningUrl)).json() }));
     return this.actionDispatcher.dispatchAll(actions);
   }
 
@@ -66,5 +64,3 @@ export const ivyStartupDiagramModule = new ContainerModule(bind => {
     })
     .inSingletonScope();
 });
-
-const fetchMiningData = async (url: string) => fetch(url);

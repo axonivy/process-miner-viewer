@@ -7,6 +7,7 @@ import { MessageConnection } from 'vscode-jsonrpc';
 import createContainer from './di.config';
 import './index.css';
 import { getParameters, getServerDomain, isSecureConnection } from './url-helper';
+import { MiningUrl } from './process-mining-visualisation/mining-action';
 
 const parameters = getParameters();
 const app = parameters.get('app') ?? 'designer';
@@ -15,7 +16,7 @@ if (!server) {
   server = getServerDomain().replace(app, '');
 }
 
-const miningUrl = parameters.get('miningUrl') ?? 'http://localhost:3000/mock.json';
+const miningUrlParam = parameters.get('miningUrl') ?? 'http://localhost:3000/mock.json';
 const pmv = parameters.get('pmv') ?? '';
 const pid = parameters.get('pid') ?? '';
 const sourceUri = parameters.get('file') ?? '';
@@ -47,9 +48,10 @@ async function initialize(connectionProvider: MessageConnection, isReconnecting 
     highlight,
     select,
     zoom,
-    theme,
-    miningUrl
+    theme
   });
+
+  container.bind(MiningUrl).toConstantValue({ url: miningUrlParam });
 
   const diagramLoader = container.get(DiagramLoader);
   await diagramLoader.load({
