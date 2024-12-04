@@ -19,7 +19,7 @@ export interface MiningData {
   analysisType: string;
   numberOfInstances: number;
   nodes: MiningNode[];
-  timeFrame: period;
+  timeFrame: Period;
 }
 
 export interface MiningNode {
