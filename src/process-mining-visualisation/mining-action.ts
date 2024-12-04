@@ -9,7 +9,7 @@ export interface MiningAction extends Action {
   kind: typeof MiningAction.KIND;
 }
 
-export interface period {
+export interface Period {
   start: string;
   end: string;
 }
@@ -19,7 +19,7 @@ export interface MiningData {
   analysisType: string;
   numberOfInstances: number;
   nodes: MiningNode[];
-  timeFrame: period;
+  timeFrame: Period;
 }
 
 export interface MiningNode {
