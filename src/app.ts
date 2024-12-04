@@ -7,7 +7,7 @@ import { MessageConnection } from 'vscode-jsonrpc';
 import createContainer from './di.config';
 import './index.css';
 import { getParameters, getServerDomain, isSecureConnection } from './url-helper';
-import { MiningData } from './process-mining-visualisation/mining-action';
+import { MiningUrl } from './process-mining-visualisation/mining-action';
 
 const parameters = getParameters();
 const app = parameters.get('app') ?? 'designer';
@@ -51,7 +51,7 @@ async function initialize(connectionProvider: MessageConnection, isReconnecting 
     theme
   });
 
-  container.bind(MiningData).toConstantValue({ data: await (await fetch(miningUrlParam)).json() });
+  container.bind(MiningUrl).toConstantValue({ url: miningUrlParam });
 
   const diagramLoader = container.get(DiagramLoader);
   await diagramLoader.load({

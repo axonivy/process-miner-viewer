@@ -9,29 +9,29 @@ export interface MiningAction extends Action {
   kind: typeof MiningAction.KIND;
 }
 
-export interface IMiningData {
+export interface period {
+  start: string;
+  end: string;
+}
+
+export interface MiningData {
   processName: string;
   analysisType: string;
   numberOfInstances: number;
-  nodes: IMiningNode[];
+  nodes: MiningNode[];
   timeFrame: period;
 }
 
-export interface IMiningNode {
+export interface MiningNode {
   type: string;
   id: string;
   relativeValue: number;
   labelValue: number;
 }
 
-export interface period {
-  start: string;
-  end: string;
-}
-
 @injectable()
-export class MiningData {
-  readonly data: IMiningData;
+export class MiningUrl {
+  readonly url: string;
 }
 
 export namespace MiningAction {
@@ -50,7 +50,7 @@ export namespace MiningAction {
 @injectable()
 export class MiningCommand extends Command {
   static readonly KIND = MiningAction.KIND;
-  @inject(MiningData) protected miningData: MiningData;
+  @inject(MiningUrl) protected miningData: MiningUrl;
   constructor(@inject(TYPES.Action) protected readonly action: MiningAction) {
     super();
   }
@@ -62,7 +62,12 @@ export class MiningCommand extends Command {
     if (model.children.filter(e => e.type === DiagramCaption.TYPE).length > 0) {
       return model;
     }
-    this.miningData.data.nodes.forEach(node => {
+    return this.populate(model);
+  }
+
+  async populate(model: SModelRootImpl) {
+    const data: MiningData = await (await fetch(this.miningData.url)).json();
+    data.nodes.forEach(node => {
       const edge = model.index.getById(node.id);
       if (edge instanceof Edge) {
         const segments = this.edgeRouterRegistry.route(edge, edge.args);
@@ -72,12 +77,12 @@ export class MiningCommand extends Command {
       }
     });
     const bounds = this.getModelBounds(model);
-    const startCaption = new DiagramCaption(bounds, `Analysis of ${this.miningData.data.processName}`, 'start');
+    const startCaption = new DiagramCaption(bounds, `Analysis of ${data.processName}`, 'start');
     const endCaption = new DiagramCaption(
       bounds,
-      `${this.miningData.data.numberOfInstances} instances (investigation period: ${new Date(
-        this.miningData.data.timeFrame.start
-      ).toDateString()} - ${new Date(this.miningData.data.timeFrame.end).toDateString()})`,
+      `${data.numberOfInstances} instances (investigation period: ${new Date(data.timeFrame.start).toDateString()} - ${new Date(
+        data.timeFrame.end
+      ).toDateString()})`,
       'end'
     );
     model.add(startCaption);
