@@ -34,19 +34,10 @@ pack
 
 *.log
 
-**/browser-app/**
-!**/browser-app/package.json
-
-*.vsix
-
-**/electron-app/**
-!**/electron-app/package.json
-
 report.xml
 eslint.xml
+playwright-report/*
 **/test-results/*
-playwright-report
-
 
 tsconfig.*tsbuildinfo
-build/
+dist/

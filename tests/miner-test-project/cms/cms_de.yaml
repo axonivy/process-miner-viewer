@@ -1,0 +1,60 @@
+Dialogs:
+  procurementRequest:
+    AcceptTitle: Beschaffungstrag annehmen
+    accept: Akzeptieren
+    acceptDescription: 'Der nachfolgende Beschaffungsantrag muss beantwortet werden:'
+    acceptedBy: Angenommen von
+    amount: Menge
+    currencySymbol: $
+    decline: Ablehnen
+    declinedBy: Abgelehnt von
+    description: Beschreibung
+    enterDescription: Bitte geben Sie die Antragsdaten ein.
+    enterTitle: Beschaffungsantrag erfassen
+    forTotal: zum Gesamtpreis von
+    notes: Notizen
+    piecesOf: Stück
+    pricePerUnit: Stückpreis
+    requestedBy: Beantragt von
+    totalPrice: Total
+    verified: Prüfen
+    verifiedBy: Geprüft von
+    verify: Prüfen
+    verifyDescription: 'Der nachfolgende Beschaffungsantrag muss geprüft werden:'
+    verifyTitle: Beschaffungsantrag prüfen
+Emails:
+  accepted: akzeptiert
+  confirmParkingLot: "<H1>\nHallo <%=in.name%>\n</H1>\n<P>\nDer Parkplatz Nr. <%=in.selectedParkingLotNr%> wurde für Sie reserviert. \n</P>\n<P>\nWir wünschen Ihnen einen schönen Tag.\n</P>\n"
+  declined: abgelehnt
+  parkingLotReservationHeader: Ihr Parkplatz wurde reserviert
+  procurementRequestNotification:
+    "<H1>\nHallo <%=in.requester.fullName%> \n</H1>\n<P>\nIhr Antrag wurde <%=(in.accepted ? \"angenommen\" : \"abgelehnt\")%>: \n</P>\n<P>\n<%=in.amount%> Stück '<%=in.description%>' zum Gesamtpreis von <%=in.totalPrice%> <%=ivy.cms.co(\"/Dialogs/procurementRequest/currencySymbol\"\
+    )%> \n</P>\n<P>\nFreundliche Grüsse \n</P>\n"
+  senderMail: noreply@axonivy.com
+  welcomeHeader: Willkommen
+  welcomeMail: "<H1>\nHallo <%=in.name%> \n</H1>\n<P>\nWillkommen in unserem Unternehmen. Wir freuen uns, Sie bei uns begrüssen zu dürfen! \n</P>\n<P>\nWenn Sie Fragen haben, wenden Sie sich bitte an Ihren Teamleiter oder an Ihren HR Manager. \n</P>\n<P>\nWir wünschen Ihnen einen schönen Tag! \n</P>\n"
+  yourRequestHasBeen: 'Ihre Anfrage wurde '
+Notification:
+  business:
+    Messages:
+      InvoiceSent: Die Rechnung für die Bestellung {0} wurde versendet
+      OrderDelivered: Bestellung {0} wurde an Kunde {1} {2} ausgeliefert
+      OrderFinished: Die Bestellung {0} wurde erfolgreich abgeschlossen
+    Templates:
+      Order:
+        Labels:
+          Customer: Kunde
+          Greeting: 'Hallo '
+          Message: Meldung
+          Title: Bestellungsinformation
+TaskDescriptions:
+  DeliverKeyCardDesc: Bitte liefern Sie die Schlüsselkarte aus für
+  acceptRequest: Antrag annehmen
+  currencySymbol: $
+  deliverKeyCardFor: Schlüsselkarte ausliefern für
+  prepareOfficeKeyDesc: Bitte bereiten Sie den Büroschlüssel vor für
+  prepareOfficeKeyFor: Bereite Büroschlüssel vor für
+  reserveParkingLotFor: Parkplatz reservieren für
+  setupWorkstation: Arbeitsplatz einrichten für
+  setupWorkstationDesc: Bitte richten Sie den Arbeitsplatz ein für
+  verifyRequest: Prüfe Antrag

@@ -13,7 +13,7 @@ However, it's of course also possible to use another text editor.
 
 ### Launch config prerequisites
 
-Project [workflow-demos](https://market.axonivy.com/workflow-demo) is required to be running in a [designer](https://dev.axonivy.com/download) on port 8081.
+Project [miner-test-project](./tests/miner-test-project/) is required to be running in a [Pro Designer](https://dev.axonivy.com/download) on port 8081.
 
 ---
 
@@ -26,25 +26,25 @@ npm install
 #run the viewer
 npm run dev
 
-#build the vievwer
+#build the viewer
 npm run package
 ```
 
 ## Running the process miner in VS Code
 
-To start the viewer, you can start the **Launch Viewer** config directly inside VS Code. For this to work, the project **workflow-demos** is required to be running in a designer on port 8081.
+To start the viewer, you can start the **Launch Viewer** config directly inside VS Code. For this to work, the project **miner-test-project** is required to be running in a Pro Designer on port 8081.
 
 ## Running the process miner via commandline
 
 To start the viewer via cli, you can run `npm run dev`.<br>
-The viewer will now run at `http://localhost:3000`. To access it you can open the URL in a browser. Following url parameter are required to open the **workflow-demos** with the default mock-mining-data:
+The viewer will now run at `http://localhost:3000`. To access it you can open the URL in a browser. Following url parameter are required to open the **miner-test-project** with the default mock-mining-data:
 
 - server=localhost:8081
 - app=designer
-- pmv=workflow-demos
+- pmv=miner-test-project
 - file=/processes/Humantask/ProcurementRequestParallel.p.json
 
-e.g. [`http://localhost:3000?server=localhost:8081&app=designer&pmv=workflow-demos&file=/processes/Humantask/ProcurementRequestParallel.p.json`](http://localhost:3000?server=localhost:8081&app=designer&pmv=workflow-demos&file=/processes/Humantask/ProcurementRequestParallel.p.json)
+e.g. [`http://localhost:3000?server=localhost:8081&app=designer&pmv=miner-test-project&file=/processes/Humantask/ProcurementRequestParallel.p.json`](http://localhost:3000?server=localhost:8081&app=designer&pmv=miner-test-project&file=/processes/Humantask/ProcurementRequestParallel.p.json)
 
 ## Mining-Data
 
@@ -56,8 +56,8 @@ To provide a URL for the mining-data the url-parameter **miningUrl** can be used
 ## Implementation in ivy project
 
 1. build the viewer via `npm run package`
-2. copy **build/mock.json** and contents of **build/assets** into **webcontent/resources** in ivy project
-3. copy **build/index.html** to **webcontent/view/process-miner.xhtml**
+2. copy **dist/mock.json** and contents of **dist/assets** into **webcontent/resources** in ivy project
+3. copy **dist/index.html** to **webcontent/view/process-miner.xhtml**
 4. open **process-miner.xhtml** make following edits:
    - Add required libraries to html tag:
      ```xhtml
@@ -77,7 +77,7 @@ The process-miner-viewer can now be used in any dialog using an iframe:
 
 ```xhtml
 <iframe
-  src="/designer/faces/view/DemoProject/process-miner.xhtml?server=localhost:8081&amp;app=designer&amp;pmv=workflow-demos&amp;file=/processes/Humantask/ProcurementRequestParallel.p.json&amp;miningUrl=#{resource['resources/mock.json']}"
+  src="/designer/faces/view/DemoProject/process-miner.xhtml?server=localhost:8081&amp;app=designer&amp;pmv=miner-test-project&amp;file=/processes/Humantask/ProcurementRequestParallel.p.json&amp;miningUrl=#{resource['resources/mock.json']}"
   width="1000"
   height="900"
 ></iframe>

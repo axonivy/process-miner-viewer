@@ -1,0 +1,95 @@
+Dialogs:
+  procurementRequest:
+    AcceptTitle: Accept Procurement Request
+    accept: Accept
+    acceptDescription: 'The following procurement request needs to be answered:'
+    acceptedBy: Accepted by
+    amount: Amount
+    currencySymbol: $
+    decline: Decline
+    declinedBy: Declined by
+    description: Description
+    enterDescription: Please enter your request data.
+    enterTitle: Enter Procurement Request
+    forTotal: for a total of
+    notes: Notes
+    piecesOf: pieces of
+    pricePerUnit: Price per Unit
+    requestedBy: Requested by
+    totalPrice: Total
+    verified: Verify
+    verifiedBy: Verified by
+    verify: Verify
+    verifyDescription: 'The following procurement request needs to be verified:'
+    verifyTitle: Verify Procurement Request
+Emails:
+  accepted: accepted
+  confirmParkingLot: |
+    <H1>
+    Hello <%=in.name%>
+    </H1>
+    <P>
+    We reserved the parking lot nr. <%=in.selectedParkingLotNr%> for you.
+    </P>
+    <P>
+    Have a nice day.
+    </P>
+  declined: declined
+  parkingLotReservationHeader: Your parking lot has been reserved
+  procurementRequestNotification: |
+    <H1>
+    Hello <%=in.requester.fullName%>
+    </H1>
+    <P>
+    Your request has been <%=(in.accepted ? "accepted" : "declined")%>:
+    </P>
+    <P>
+    <%=in.amount%> pieces of '<%=in.description%>' for a total of <%=in.totalPrice%> <%=ivy.cms.co("/Dialogs/procurementRequest/currencySymbol")%>
+    </P>
+    <P>
+    Kind regards
+    </P>
+  senderMail: noreply@axonivy.com
+  welcomeHeader: Welcome
+  welcomeMail: |
+    <H1>
+    Hello <%=in.name%>
+    </H1>
+    <P>
+    Welcome at our company. It is a great pleasure to have you here!
+    </P>
+    <P>
+    If you have any question, please don't hesitate to contact your teamleader or your HR Manager.
+    </P>
+    <P>
+    Have a nice day!
+    </P>
+  yourRequestHasBeen: Your request has been
+Notification:
+  business:
+    Messages:
+      InvoiceSent: The invoice for order {0} was sent
+      OrderDelivered: Order {0} delivered to customer {1} {2}
+      OrderFinished: The order {0} successfully finished
+    Templates:
+      Order:
+        Labels:
+          Customer: Customer
+          Greeting: Hello
+          Message: Message
+          Title: Order Information
+        web:
+          Subject: |-
+            <%= ivy.html.escape(message) %><br>
+            <%= ivy.cm.co("/Notification/business/Templates/Order/Labels/Customer") %> <i style="color:red;"><%= ivy.html.escape(payload.get("surname")) %> <%= ivy.html.escape(payload.get("name")) %> </i>
+TaskDescriptions:
+  DeliverKeyCardDesc: 'Please deliver key card for '
+  acceptRequest: Accept Request
+  currencySymbol: $
+  deliverKeyCardFor: Deliver keycard for
+  prepareOfficeKeyDesc: 'Please prepare the office key for '
+  prepareOfficeKeyFor: Prepare Office Key for
+  reserveParkingLotFor: Reserve parking lot for
+  setupWorkstation: Setup Workstation for
+  setupWorkstationDesc: 'Please set up the workstation for '
+  verifyRequest: Verify Request
