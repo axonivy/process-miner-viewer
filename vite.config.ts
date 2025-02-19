@@ -17,7 +17,7 @@ export default defineConfig(() => ({
   },
   resolve: {
     alias: {
-      'sprotty/lib/lib/virtualize': resolve('./src/shims/virtualize.js') // Fix commonjs sprotty lib used inside esm @axonivy/process-editor
+      'sprotty/lib/lib/virtualize': resolve('./src/shims/virtualize.ts') // Fix commonjs sprotty lib used inside esm @axonivy/process-editor
     }
   },
   base: './'

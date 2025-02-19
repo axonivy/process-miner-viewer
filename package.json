@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@axonivy/process-miner-viewer",
-  "version": "12.0.0-next",
+  "version": "13.1.0-next",
   "description": "Process miner viever for the Axon Ivy process editor",
   "author": "Axon Ivy AG",
   "homepage": "https://developer.axonivy.com",
@@ -18,8 +18,10 @@
   "scripts": {
     "ci": "npm install && npm run type && npm run package && npm run lint:ci",
     "clean": "rimraf lib build/* tsconfig.tsbuildinfo",
-    "lint": "eslint --ext .ts,.tsx ./src",
-    "lint:ci": "npm run lint -- -o eslint.xml -f checkstyle",
+    "lint": "eslint",
+    "lint:ci": "eslint -o eslint.xml -f checkstyle",
+    "lint:fix": "eslint --fix",
+    "lint:inspect": "eslint --inspect-config",
     "type": "tsc",
     "package": "vite build",
     "dev": "vite",
@@ -28,27 +30,22 @@
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -t patch -u"
   },
   "dependencies": {
-    "@axonivy/process-editor": "~12.0.4-next.1366",
-    "@axonivy/ui-icons": "~12.0.4-next.523",
-    "@axonivy/ui-components": "~12.0.4-next.523",
+    "@axonivy/process-editor": "~13.1.0-next.1396",
+    "@axonivy/ui-icons": "~13.1.0-next.576",
+    "@axonivy/ui-components": "~13.1.0-next.576",
     "@eclipse-glsp/client": "2.3.0"
   },
   "devDependencies": {
+    "@axonivy/eslint-config": "~13.1.0-next.576",
     "@types/node": "^22.13.4",
-    "@typescript-eslint/eslint-plugin": "^8.24.1",
-    "@typescript-eslint/parser": "^8.24.1",
     "@playwright/test": "1.50.1",
     "@vscode/codicons": "^0.0.36",
-    "eslint": "^8.57.1",
-    "eslint-plugin-header": "^3.1.1",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-no-null": "^1.0.2",
     "prettier": "^3.5.1",
     "rimraf": "^6.0.1",
     "typescript": "~5.7.3",
     "path-browserify": "^1.0.1",
     "reflect-metadata": "^0.2.2",
-    "vite": "^5.4.14",
+    "vite": "^6",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "type": "module"
