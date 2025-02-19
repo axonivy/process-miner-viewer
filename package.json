@@ -28,30 +28,28 @@
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -t patch -u"
   },
   "dependencies": {
-    "@axonivy/process-editor": "~12.0.0-next.1217",
-    "@axonivy/ui-icons": "~12.0.0-next.380",
-    "@axonivy/ui-components": "~12.0.0-next.380",
-    "@eclipse-glsp/client": "2.3.0-next.381"
+    "@axonivy/process-editor": "~12.0.4-next.1366",
+    "@axonivy/ui-icons": "~12.0.4-next.523",
+    "@axonivy/ui-components": "~12.0.4-next.523",
+    "@eclipse-glsp/client": "2.3.0"
   },
   "devDependencies": {
-    "@types/node": "^20.10.5",
-    "@typescript-eslint/eslint-plugin": "^8.2.0",
-    "@typescript-eslint/parser": "^8.2.0",
+    "@types/node": "^22.13.4",
+    "@typescript-eslint/eslint-plugin": "^8.24.1",
+    "@typescript-eslint/parser": "^8.24.1",
     "@playwright/test": "1.50.1",
-    "eslint": "^8.56.0",
+    "@vscode/codicons": "^0.0.36",
+    "eslint": "^8.57.1",
     "eslint-plugin-header": "^3.1.1",
-    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-no-null": "^1.0.2",
-    "prettier": "^2.8.0",
+    "prettier": "^3.5.1",
     "rimraf": "^6.0.1",
-    "typescript": "~5.5.4",
-    "typescript-cp": "^0.1.9",
-    "@types/uuid": "^9.0.7",
-    "@vscode/codicons": "^0.0.25",
+    "typescript": "~5.7.3",
     "path-browserify": "^1.0.1",
-    "reflect-metadata": "^0.1.13",
-    "vite": "^5.4.2",
-    "vite-tsconfig-paths": "^5.0.1"
+    "reflect-metadata": "^0.2.2",
+    "vite": "^5.4.14",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "type": "module"
 }
