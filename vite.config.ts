@@ -1,23 +1,12 @@
-/** @type {import('vite').UserConfig} */
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig(() => {
   const config = {
     plugins: [tsconfigPaths()],
     build: {
-      outDir: 'build',
-      chunkSizeWarningLimit: 5000,
-      rollupOptions: {
-        output: {
-          manualChunks: id => {
-            if (id.includes('monaco-languageclient')) {
-              return 'monaco';
-            }
-          }
-        }
-      }
+      outDir: 'dist',
+      chunkSizeWarningLimit: 5000
     },
     esbuild: {
       target: 'esnext',
@@ -35,13 +24,7 @@ export default defineConfig(() => {
         return sourcePath.includes('node_modules') && !sourcePath.includes('@eclipse-glsp') && !sourcePath.includes('@axonivy');
       }
     },
-    base: './',
-    optimizeDeps: {
-      needsInterop: [
-        'monaco-editor/esm/vs/editor/standalone/browser/accessibilityHelp/accessibilityHelp.js',
-        'monaco-editor/esm/vs/editor/standalone/browser/inspectTokens/inspectTokens.js'
-      ]
-    }
+    base: './'
   };
   return config;
 });

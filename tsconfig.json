@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "moduleResolution": "Bundler",
-    "rootDir": "src",
+    "rootDir": ".",
+    "rootDirs": ["src", "tests"],
     "outDir": "lib",
     "noImplicitAny": false,
     "noEmit": true,
@@ -25,7 +26,5 @@
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "sourceMap": true
   },
-  "include": ["src"]
+  "include": ["src", "tests"]
 }
-
-

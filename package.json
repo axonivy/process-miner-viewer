@@ -13,17 +13,18 @@
     "node": ">=20.10.0"
   },
   "volta": {
-    "node": "20.15.0"
+    "node": "22.11.0"
   },
   "scripts": {
-    "ci": "npm install && npm run build && npm run package && npm run lint:ci && npm run test:ci",
-    "lint:ci": "npm run lint -- -o eslint.xml -f checkstyle",
+    "ci": "npm install && npm run type && npm run package && npm run lint:ci",
     "clean": "rimraf lib build/* tsconfig.tsbuildinfo",
     "lint": "eslint --ext .ts,.tsx ./src",
+    "lint:ci": "npm run lint -- -o eslint.xml -f checkstyle",
     "type": "tsc",
     "package": "vite build",
     "dev": "vite",
     "serve": "vite preview",
+    "webtest": "playwright test",
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -t patch -u"
   },
   "dependencies": {
@@ -36,6 +37,7 @@
     "@types/node": "^20.10.5",
     "@typescript-eslint/eslint-plugin": "^8.2.0",
     "@typescript-eslint/parser": "^8.2.0",
+    "@playwright/test": "1.50.1",
     "eslint": "^8.56.0",
     "eslint-plugin-header": "^3.1.1",
     "eslint-plugin-import": "^2.29.1",
