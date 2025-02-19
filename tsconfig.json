@@ -24,7 +24,8 @@
     "jsx": "react",
     "jsxFactory": "JSX.createElement",
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "sourceMap": true
+    "sourceMap": true,
+    "verbatimModuleSyntax": true
   },
   "include": ["src", "tests"]
 }

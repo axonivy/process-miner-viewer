@@ -1,5 +1,5 @@
 import { EdgeLabel } from '@axonivy/process-editor';
-import { RoutedPoint } from '@eclipse-glsp/client';
+import { type RoutedPoint } from '@eclipse-glsp/client';
 
 export class MiningLabel extends EdgeLabel {
   static readonly TYPE = 'edge:label:mining';

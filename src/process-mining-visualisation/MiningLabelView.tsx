@@ -1,14 +1,13 @@
-import { svg, RenderingContext, GLabelView } from '@eclipse-glsp/client';
-import { VNode } from 'snabbdom';
+import { svg, GLabelView } from '@eclipse-glsp/client';
+import type { VNode } from 'snabbdom';
 import { injectable } from 'inversify';
 import { MiningLabel } from './MiningLabel';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const JSX = { createElement: svg };
 
 @injectable()
 export class MiningLabelView extends GLabelView {
-  render(label: MiningLabel, context: RenderingContext): VNode | undefined {
+  render(label: MiningLabel): VNode | undefined {
     if (label.segments.length < 2) {
       return;
     }

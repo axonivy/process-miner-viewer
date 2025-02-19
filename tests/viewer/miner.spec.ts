@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { ProcessMiner } from '../page-objects/process-miner';
 
-test('minig data', async ({ page, context }) => {
+test('minig data', async ({ page }) => {
   const miner = await ProcessMiner.openProcess(page);
   const title = miner.diagram.locator('.diagram-caption').first();
   await expect(title).toBeVisible();
