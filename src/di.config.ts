@@ -1,5 +1,6 @@
 import {
   createIvyDiagramContainer,
+  ivyAccessibilityModule,
   ivyChangeBoundsToolModule,
   ivyConnectorModule,
   ivyKeyListenerModule,
@@ -21,7 +22,6 @@ import {
   nodeCreationToolModule
 } from '@eclipse-glsp/client';
 import { Container } from 'inversify';
-import ivyViewerKeyListenerModule from './key-listener/di.config';
 import ivyNavigationModule from './navigate/di.config';
 import ivyViewerQuickActionModule from './quick-action/di.config';
 import { ivyStartupDiagramModule } from './startup';
@@ -42,6 +42,7 @@ export default function createContainer(options: IvyDiagramOptions): Container {
     ivyThemeModule,
     ivyNavigationModule,
     ivyStartupDiagramModule,
+    ivyKeyListenerModule,
     ivyMiningModule,
     {
       remove: [
@@ -54,11 +55,11 @@ export default function createContainer(options: IvyDiagramOptions): Container {
         deletionToolModule,
         edgeEditToolModule,
         nodeCreationToolModule,
-        ivyToolBarModule
+        ivyToolBarModule,
+        ivyAccessibilityModule
       ]
     },
-    { remove: ivyQuickActionModule, add: ivyViewerQuickActionModule },
-    { remove: ivyKeyListenerModule, add: ivyViewerKeyListenerModule }
+    { remove: ivyQuickActionModule, add: ivyViewerQuickActionModule }
   );
   overrideIvyViewerOptions(container, { hideSensitiveInfo: true });
   return container;
