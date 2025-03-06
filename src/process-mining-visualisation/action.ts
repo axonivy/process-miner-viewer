@@ -1,4 +1,4 @@
-import { GLSPActionDispatcher, IActionHandler } from '@eclipse-glsp/client';
+import { GLSPActionDispatcher, type IActionHandler } from '@eclipse-glsp/client';
 import { inject, injectable } from 'inversify';
 import { MiningAction } from './mining-action';
 

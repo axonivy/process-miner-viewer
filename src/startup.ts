@@ -1,7 +1,7 @@
 import { EnableViewportAction, MoveIntoViewportAction, SetViewportZoomAction, SwitchThemeAction } from '@axonivy/process-editor-protocol';
 import { Action, CenterAction, GLSPActionDispatcher, IDiagramStartup, NavigationTarget, SelectAction, TYPES } from '@eclipse-glsp/client';
-import { ContainerModule, inject, injectable, interfaces } from 'inversify';
-import { IvyDiagramOptions } from './di.config';
+import { ContainerModule, inject, injectable, type interfaces } from 'inversify';
+import type { IvyDiagramOptions } from './di.config';
 import { isInPreviewMode } from './url-helper';
 
 const ContainerSymbol = Symbol('ContainerSymbol');

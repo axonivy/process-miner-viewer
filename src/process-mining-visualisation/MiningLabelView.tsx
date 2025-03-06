@@ -1,5 +1,5 @@
 import { svg, GLabelView } from '@eclipse-glsp/client';
-import { VNode } from 'snabbdom';
+import { type VNode } from 'snabbdom';
 import { injectable } from 'inversify';
 import { MiningLabel } from './MiningLabel';
 
