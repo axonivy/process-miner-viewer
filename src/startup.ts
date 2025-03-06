@@ -49,8 +49,9 @@ export class ViewerDiagramStartup implements IDiagramStartup {
     return [];
   }
 
-  protected isNumeric(num: any): boolean {
-    return !isNaN(parseFloat(num)) && isFinite(num);
+  protected isNumeric(number: string) {
+    const num = parseFloat(number);
+    return !isNaN(num) && isFinite(num);
   }
 }
 

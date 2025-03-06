@@ -42,7 +42,7 @@ export namespace MiningAction {
     };
   }
 
-  export function is(object: any): object is MiningAction {
+  export function is(object: unknown): object is MiningAction {
     return Action.hasKind(object, KIND);
   }
 }
