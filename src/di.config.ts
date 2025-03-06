@@ -13,9 +13,9 @@ import {
   ivyWrapModule,
   overrideIvyViewerOptions
 } from '@axonivy/process-editor';
-import { ThemeMode } from '@axonivy/process-editor-protocol';
+import { type ThemeMode } from '@axonivy/process-editor-protocol';
 import {
-  IDiagramOptions,
+  type IDiagramOptions,
   createDiagramOptionsModule,
   deletionToolModule,
   edgeEditToolModule,

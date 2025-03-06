@@ -1,8 +1,17 @@
 import { Edge } from '@axonivy/process-editor';
-import { Action, Bounds, Command, CommandExecutionContext, CommandReturn, GLabel, TYPES, isBoundsAware } from '@eclipse-glsp/client';
+import {
+  Action,
+  Bounds,
+  Command,
+  type CommandExecutionContext,
+  type CommandReturn,
+  GLabel,
+  TYPES,
+  isBoundsAware
+} from '@eclipse-glsp/client';
 import { inject, injectable } from 'inversify';
 import { DiagramCaption } from './DiagramCaption';
-import { EdgeRouterRegistry, RoutedPoint, SModelRootImpl } from 'sprotty';
+import { EdgeRouterRegistry, type RoutedPoint, SModelRootImpl } from 'sprotty';
 import { MiningLabel } from './MiningLabel';
 
 export interface MiningAction extends Action {
@@ -42,7 +51,7 @@ export namespace MiningAction {
     };
   }
 
-  export function is(object: any): object is MiningAction {
+  export function is(object: unknown): object is MiningAction {
     return Action.hasKind(object, KIND);
   }
 }

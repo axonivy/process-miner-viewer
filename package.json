@@ -18,8 +18,10 @@
   "scripts": {
     "ci": "npm install && npm run type && npm run package && npm run lint:ci",
     "clean": "rimraf lib build/* tsconfig.tsbuildinfo",
-    "lint": "eslint --ext .ts,.tsx ./src",
-    "lint:ci": "npm run lint -- -o eslint.xml -f checkstyle",
+    "lint": "eslint",
+    "lint:ci": "eslint -o eslint.xml -f checkstyle",
+    "lint:fix": "eslint --fix",
+    "lint:inspect": "eslint --inspect-config",
     "type": "tsc",
     "package": "vite build",
     "dev": "vite",
@@ -28,21 +30,16 @@
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -t patch -u"
   },
   "dependencies": {
-    "@axonivy/process-editor": "~12.0.4-next.1366",
-    "@axonivy/ui-icons": "~12.0.4-next.523",
-    "@axonivy/ui-components": "~12.0.4-next.523",
+    "@axonivy/process-editor": "~12.0.4-next.1392",
+    "@axonivy/ui-icons": "~12.0.4-next.535",
+    "@axonivy/ui-components": "~12.0.4-next.535",
     "@eclipse-glsp/client": "2.3.0"
   },
   "devDependencies": {
+    "@axonivy/eslint-config": "~12.0.4-next.535",
     "@types/node": "^22.13.4",
-    "@typescript-eslint/eslint-plugin": "^8.24.1",
-    "@typescript-eslint/parser": "^8.24.1",
     "@playwright/test": "1.50.1",
     "@vscode/codicons": "^0.0.36",
-    "eslint": "^8.57.1",
-    "eslint-plugin-header": "^3.1.1",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-no-null": "^1.0.2",
     "prettier": "^3.5.1",
     "rimraf": "^6.0.1",
     "typescript": "~5.7.3",
