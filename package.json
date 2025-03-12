@@ -30,13 +30,13 @@
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -t patch -u"
   },
   "dependencies": {
-    "@axonivy/process-editor": "~12.0.4-next.1392",
-    "@axonivy/ui-icons": "~12.0.4-next.535",
-    "@axonivy/ui-components": "~12.0.4-next.535",
+    "@axonivy/process-editor": "~12.0.5-next.1408",
+    "@axonivy/ui-icons": "~12.0.5-next.543",
+    "@axonivy/ui-components": "~12.0.5-next.543",
     "@eclipse-glsp/client": "2.3.0"
   },
   "devDependencies": {
-    "@axonivy/eslint-config": "~12.0.4-next.535",
+    "@axonivy/eslint-config": "~12.0.5-next.543",
     "@types/node": "^22.13.4",
     "@playwright/test": "1.51.0",
     "@vscode/codicons": "^0.0.36",
