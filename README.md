@@ -87,6 +87,12 @@ The process-miner-viewer can now be used in any dialog using an iframe:
 
 ## Mining visualization
 
+[`app.ts`](src/app.ts)<br>
+Here the miningUrl is read via query-parameter "miningUrl".
+If no such parameter is provided, a fallback ("http://localhost:3000/mock.json") is used.
+
+### Visualization
+
 All code to modify the mining visualization is located in [`src/process-mining-visualisation`](src/process-mining-visualisation).
 
 [`di-config.ts`](src/process-mining-visualisation/di.config.ts)<br>

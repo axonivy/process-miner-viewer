@@ -4,6 +4,10 @@ import { injectable } from 'inversify';
 
 const JSX = { createElement: svg };
 
+/**
+ * Called when DiagramCaption is rendered
+ * Places the provided text above/below the diagram based on 'DiagramCaption.location'
+ */
 @injectable()
 export class DiagramCaptionView extends GLabelView {
   render(node: DiagramCaption) {

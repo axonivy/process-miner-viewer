@@ -5,6 +5,11 @@ import { MiningLabel } from './MiningLabel';
 
 const JSX = { createElement: svg };
 
+/**
+ * Called when MiningLabel is rendered
+ * Places a circle on the edge containing the mining data
+ * Adjusts the circle (size/color) based on provided metrics
+ */
 @injectable()
 export class MiningLabelView extends GLabelView {
   render(label: MiningLabel): VNode | undefined {
