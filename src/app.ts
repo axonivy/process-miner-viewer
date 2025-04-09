@@ -16,6 +16,7 @@ if (!server) {
   server = getServerDomain().replace(app, '');
 }
 
+// read miningUrl from parameters
 const miningUrlParam = parameters.get('miningUrl') ?? 'http://localhost:3000/mock.json';
 const pmv = parameters.get('pmv') ?? '';
 const pid = parameters.get('pid') ?? '';
@@ -51,6 +52,7 @@ async function initialize(connectionProvider: MessageConnection, isReconnecting 
     theme
   });
 
+  // binds the mining url as const to be injected into the MiningCommand
   container.bind(MiningUrl).toConstantValue({ url: miningUrlParam });
 
   const diagramLoader = container.get(DiagramLoader);
