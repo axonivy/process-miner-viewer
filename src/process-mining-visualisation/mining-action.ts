@@ -23,6 +23,9 @@ export interface Period {
   end: string;
 }
 
+/**
+ * interface used to define the properties of the fetched mining-data
+ */
 export interface MiningData {
   processName: string;
   analysisType: string;
@@ -43,6 +46,9 @@ export class MiningUrl {
   readonly url: string;
 }
 
+/**
+ * Action which is fired when the Mining-Data is to be displayed
+ */
 export namespace MiningAction {
   export const KIND = 'minigCommand';
   export function create(): MiningAction {
@@ -56,6 +62,9 @@ export namespace MiningAction {
   }
 }
 
+/**
+ * Command which is executed when a MiningAction is fired
+ */
 @injectable()
 export class MiningCommand extends Command {
   static readonly KIND = MiningAction.KIND;
@@ -68,6 +77,7 @@ export class MiningCommand extends Command {
 
   execute(context: CommandExecutionContext): CommandReturn {
     const model = context.root;
+    // Checks, if data is already rendered
     if (model.children.filter(e => e.type === DiagramCaption.TYPE).length > 0) {
       return model;
     }
@@ -75,7 +85,9 @@ export class MiningCommand extends Command {
   }
 
   async populate(model: SModelRootImpl) {
+    // fetches mining-data from the provided url
     const data: MiningData = await (await fetch(this.miningData.url)).json();
+    // adds MiningLabel for each provided edge
     data.nodes.forEach(node => {
       const edge = model.index.getById(node.id);
       if (edge instanceof Edge) {
@@ -86,6 +98,7 @@ export class MiningCommand extends Command {
       }
     });
     const bounds = this.getModelBounds(model);
+    // adds two captions for title and instances at start and end of the diagram
     const startCaption = new DiagramCaption(bounds, `Analysis of ${data.processName}`, 'start');
     const endCaption = new DiagramCaption(
       bounds,
@@ -109,6 +122,7 @@ export class MiningCommand extends Command {
     return this.execute(context);
   }
 
+  // calculates bounds of the diagram to place captions
   getModelBounds = (model: SModelRootImpl): Bounds => {
     const itemBounds: Bounds[] = model.children.filter(isBoundsAware).map(e => e['bounds']);
     const bounds = { x: 0, y: 0, width: 0, height: 0 };
@@ -121,6 +135,7 @@ export class MiningCommand extends Command {
     return bounds;
   };
 
+  // moves exisitng edge-label in regard to edge-segment orientation to avoid overlap
   moveExistingLabel = (label: GLabel, segments: Array<RoutedPoint>) => {
     if (!label || label.text === '' || segments.length < 2) {
       return;
