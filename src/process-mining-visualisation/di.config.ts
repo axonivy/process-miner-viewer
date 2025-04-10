@@ -13,6 +13,7 @@ import { DiagramCaptionView } from './DiagramCaptionView';
 import { MiningLabelView } from './MiningLabelView';
 import { MiningLabel } from './MiningLabel';
 
+// registers MiningActionHandler, MiningCommand and Views
 export const ivyMiningModule = new FeatureModule((bind, _unbind, isBound) => {
   configureActionHandler({ bind, isBound }, UpdateModelAction.KIND, SetMiningActionHandler);
   configureActionHandler({ bind, isBound }, SetModelAction.KIND, SetMiningActionHandler);
