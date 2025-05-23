@@ -87,28 +87,32 @@ export class MiningCommand extends Command {
   async populate(model: SModelRootImpl) {
     // fetches mining-data from the provided url
     const data: MiningData = await (await fetch(this.miningData.url)).json();
-    // adds MiningLabel for each provided edge
-    data.nodes.forEach(node => {
-      const edge = model.index.getById(node.id);
-      if (edge instanceof Edge) {
-        const segments = this.edgeRouterRegistry.route(edge, edge.args);
-        const miningLabel = new MiningLabel(node.labelValue.toString(), node.relativeValue, segments);
-        this.moveExistingLabel(edge.editableLabel as GLabel, segments);
-        edge.add(miningLabel);
-      }
-    });
-    const bounds = this.getModelBounds(model);
-    // adds two captions for title and instances at start and end of the diagram
-    const startCaption = new DiagramCaption(bounds, `Analysis of ${data.processName}`, 'start');
-    const endCaption = new DiagramCaption(
-      bounds,
-      `${data.numberOfInstances} instances (investigation period: ${new Date(data.timeFrame.start).toDateString()} - ${new Date(
-        data.timeFrame.end
-      ).toDateString()})`,
-      'end'
-    );
-    model.add(startCaption);
-    model.add(endCaption);
+    if (data) {
+      // adds MiningLabel for each provided edge
+      data.nodes.forEach(node => {
+        const edge = model.index.getById(node.id);
+        if (edge instanceof Edge) {
+          const segments = this.edgeRouterRegistry.route(edge, edge.args);
+          const miningLabel = new MiningLabel(node.labelValue.toString(), node.relativeValue, segments);
+          this.moveExistingLabel(edge.editableLabel as GLabel, segments);
+          edge.add(miningLabel);
+        }
+      });
+      const bounds = this.getModelBounds(model);
+      // adds two captions for title and instances at start and end of the diagram
+      const startCaption = new DiagramCaption(bounds, `Analysis of ${data.processName}`, 'start');
+      const endCaption = new DiagramCaption(
+        bounds,
+        `${data.numberOfInstances} instances (investigation period: ${new Date(data.timeFrame.start).toDateString()} - ${new Date(
+          data.timeFrame.end
+        ).toDateString()})`,
+        'end'
+      );
+      model.add(startCaption);
+      model.add(endCaption);
+    } else {
+      console.warn(`Can't get mining data from ${this.miningData.url}`);
+    }
     return model;
   }
 

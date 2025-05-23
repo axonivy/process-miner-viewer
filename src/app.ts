@@ -37,8 +37,22 @@ let glspClient: GLSPClient;
 let container: Container;
 const wsProvider = new GLSPWebSocketProvider(webSocketUrl, { reconnectDelay: 5000, reconnectAttempts: 120 });
 wsProvider.listen({ onConnection: initialize, onReconnect: reconnect, logger: console });
+console.warn('app ' + app);
+console.warn('server ' + server);
 
-async function initialize(connectionProvider: MessageConnection, isReconnecting = false): Promise<void> {
+console.warn('miningUrlParam ' + miningUrlParam);
+console.warn('pmv ' + pmv);
+console.warn('pid ' + pid);
+console.warn('sourceUri ' + sourceUri);
+console.warn('highlight ' + highlight);
+console.warn('select ' + select);
+console.warn('zoom ' + zoom);
+console.warn('theme ' + theme);
+console.warn('clientId ' + clientId);
+console.warn('webSocketBase ' + webSocketBase);
+console.warn('webSocketUrl ' + webSocketUrl);
+
+async function initialize(connectionProvider: MessageConnection, isReconnecting = true): Promise<void> {
   glspClient = new IvyBaseJsonrpcGLSPClient({ id, connectionProvider });
   container = createContainer({
     clientId,
@@ -56,6 +70,7 @@ async function initialize(connectionProvider: MessageConnection, isReconnecting 
   container.bind(MiningUrl).toConstantValue({ url: miningUrlParam });
 
   const diagramLoader = container.get(DiagramLoader);
+
   await diagramLoader.load({
     // Our custom server needs the 'readonly' argument here as well and not only set through the edit mode in the diagram options
     requestModelOptions: { isReconnecting, app, pmv, pid, highlight, readonly: true, diagramType },
